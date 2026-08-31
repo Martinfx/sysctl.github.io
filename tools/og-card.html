@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>og.png source — 1200×630 social card</title>
+<!--
+  Source for assets/img/og.png. Render with headless Chromium:
+
+    chrome --headless=new --disable-gpu --no-sandbox --hide-scrollbars \
+           --force-device-scale-factor=1 --window-size=1200,630 \
+           --virtual-time-budget=10000 --font-render-hinting=none \
+           --screenshot=assets/img/og.png tools/og-card.html
+
+  Keep the board pills and the sub-heading in step with the hero section of
+  index.html, and update og:image:alt / twitter:image:alt to match.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=block">
+<style>
+  :root {
+    --bg:          #08090c;
+    --text:        #e9ebf1;
+    --text-dim:    #98a1b2;
+    --text-faint:  #646d7e;
+    --accent:      #ff5f3d;
+    --accent-soft: rgba(255,95,61,.14);
+    --accent-line: rgba(255,95,61,.42);
+    --border-strong: rgba(255,255,255,.16);
+    --grid-line:   rgba(255,255,255,.028);
+    --glow:        rgba(255,95,61,.18);
+    --glow-2:      rgba(86,184,245,.10);
+    --sans: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    position: relative;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Same two background layers as the site. */
+  body::before, body::after { content: ''; position: absolute; inset: 0; }
+  body::before {
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 78%);
+  }
+  body::after {
+    background:
+      radial-gradient(760px 420px at 18% -8%, var(--glow),   transparent 68%),
+      radial-gradient(680px 400px at 88% 4%,  var(--glow-2), transparent 66%);
+  }
+
+  .card {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 62px 70px 56px;
+  }
+
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+  .brand svg { display: block; }
+  .brand__text { font-size: 30px; font-weight: 700; letter-spacing: -.02em; }
+  .brand__caret { width: 11px; height: 24px; border-radius: 2px; background: var(--accent); }
+
+  h1 {
+    font-size: 80px;
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -.038em;
+    max-width: 720px;
+    margin-bottom: 34px;
+  }
+  .grad {
+    background: linear-gradient(100deg, var(--accent) 8%, #ff9d5c 55%, var(--accent) 95%);
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .lede {
+    font-weight: 400;
+    font-size: 23px;
+    line-height: 1.62;
+    color: var(--text-dim);
+    max-width: 560px;
+  }
+
+  .spacer { flex: 1; }
+
+  .foot { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .pills { display: flex; gap: 14px; }
+  .pill {
+    font-family: var(--mono);
+    font-size: 15px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+  .pill--hi {
+    border-color: var(--accent-line);
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .url { font-family: var(--mono); font-size: 19px; color: var(--text-faint); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand">
+    <svg viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="#ff5f3d" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="6.5" y="6.5" width="11" height="11" rx="2"/>
+      <path d="M9.5 3v3.5M14.5 3v3.5M9.5 17.5V21M14.5 17.5V21M3 9.5h3.5M3 14.5h3.5M17.5 9.5H21M17.5 14.5H21"/>
+    </svg>
+    <span class="brand__text">sysctl</span>
+    <span class="brand__caret"></span>
+  </div>
+
+  <h1>Getting <span class="grad">FreeBSD</span> onto the boards it doesn't run on yet.</h1>
+
+  <p class="lede">
+    SoC bring-up, kernel &amp; driver work, and ports maintenance —
+    developed in the open, tested on real hardware, submitted upstream.
+  </p>
+
+  <div class="spacer"></div>
+
+  <div class="foot">
+    <div class="pills">
+      <span class="pill pill--hi">BPI-R64</span>
+      <span class="pill pill--hi">BPI-R2 Pro</span>
+      <span class="pill pill--hi">BPI-R2</span>
+      <span class="pill">RPi 3 / 5</span>
+    </div>
+    <span class="url">github.com/Martinfx</span>
+  </div>
+</div>
+</body>
+</html>

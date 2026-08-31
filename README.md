@@ -12,7 +12,7 @@ kernel and driver patches, and ports maintenance.
 | Hero | Positioning + an animated FreeBSD boot log on the BPI-R2 Pro console |
 | About | Profile, what I work on, skills, direct contact |
 | Projects | SoCBSD, FreeBSD Ports, and the per-board `freebsd-src` branches |
-| Boards | The four boards in bring-up plus the open SoCBSD arenas, each card linking to its branch |
+| Boards | The three boards in bring-up plus the open SoCBSD arenas, each card linking to its branch |
 | Upstream | The path a patch takes, plus links across the FreeBSD ecosystem |
 | How it works | The SoCBSD rules — own the hardware, verify, clean provenance |
 | FAQ | Long-tail questions, marked up as `FAQPage` for rich results |
@@ -29,7 +29,9 @@ index.html              all page content lives here
 assets/css/style.css    design tokens + every component
 assets/js/main.js       theme, nav, filters, boot animation, live GitHub data
 assets/img/favicon.svg  tab icon
-assets/img/og.png       social preview card (1200×630)
+assets/img/og.png       social preview card (1200×630), generated from tools/
+tools/og-card.html      source for og.png — same tokens as the site
+tools/render-og.py      renders that card with headless Chromium
 CNAME                   the custom domain — load-bearing under branch publishing
 site.webmanifest        PWA manifest
 sitemap.xml             one URL, with lastmod and an image entry
@@ -115,8 +117,11 @@ change the name, SoC line, description, `href` and `data-branch`.
 `assets/css/style.css` — `:root` for dark, `:root[data-theme="light"]` for light.
 `--accent` is the one that sets the tone.
 
-**Regenerate the social card:** edit the values in the `og.png` block, or replace
-`assets/img/og.png` with any 1200×630 image.
+**Regenerate the social card:** edit `tools/og-card.html`, then run
+`python3 tools/render-og.py` (needs a local Chromium; pass `--chrome` if it isn't
+on the usual paths). Keep the board pills and the sub-heading in step with the
+hero section, and update `og:image:alt` / `twitter:image:alt` to match. To skip
+the generator entirely, drop any 1200×630 image in as `assets/img/og.png`.
 
 ## Publishing
 

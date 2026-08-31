@@ -37,14 +37,14 @@
 <meta property="og:site_name" content="sysctl">
 <meta property="og:locale" content="en_GB">
 <meta property="og:title" content="sysctl — FreeBSD SoC bring-up, kernel &amp; ports">
-<meta property="og:description" content="FreeBSD on SoC boards that never had it: Banana Pi BPI-R64, BPI-R2 Pro, BPI-R2, MediaTek NIO12L and Raspberry Pi bring-up, kernel and driver patches, and ports maintenance. Verified on real hardware, pushed upstream.">
+<meta property="og:description" content="FreeBSD on SoC boards that never had it: Banana Pi BPI-R64, BPI-R2 Pro, BPI-R2 and Raspberry Pi bring-up, kernel and driver patches, and ports maintenance. Verified on real hardware, pushed upstream.">
 <meta property="og:url" content="https://sysctl.cz/">
 <meta property="og:image" content="https://sysctl.cz/assets/img/og.png">
 <meta property="og:image:secure_url" content="https://sysctl.cz/assets/img/og.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="sysctl — Getting FreeBSD onto the boards it doesn't run on yet. Board tags: BPI-R64, BPI-R2 Pro, BPI-R2, NIO12L, RPi 3 / 5.">
+<meta property="og:image:alt" content="sysctl — Getting FreeBSD onto the boards it doesn't run on yet. Board tags: BPI-R64, BPI-R2 Pro, BPI-R2, RPi 3 / 5.">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:domain" content="sysctl.cz">
@@ -52,7 +52,7 @@
 <meta name="twitter:title" content="sysctl — FreeBSD SoC bring-up, kernel &amp; ports">
 <meta name="twitter:description" content="FreeBSD on SoC boards that never had it: Banana Pi BPI-R64, BPI-R2 Pro, BPI-R2 and Raspberry Pi bring-up, kernel patches, ports maintenance.">
 <meta name="twitter:image" content="https://sysctl.cz/assets/img/og.png">
-<meta name="twitter:image:alt" content="sysctl — FreeBSD SoC bring-up. Boards: BPI-R64, BPI-R2 Pro, BPI-R2, NIO12L, Raspberry Pi 3 and 5.">
+<meta name="twitter:image:alt" content="sysctl — FreeBSD SoC bring-up. Boards: BPI-R64, BPI-R2 Pro, BPI-R2, Raspberry Pi 3 and 5.">
 
 <link rel="me" href="https://github.com/Martinfx">
 <link rel="me" href="https://mastodon.bsd.cafe/@martin">
@@ -331,7 +331,7 @@
       "@type": "ItemList",
       "@id": "https://sysctl.cz/#boards",
       "name": "SoC boards in bring-up",
-      "numberOfItems": 6,
+      "numberOfItems": 5,
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -405,29 +405,6 @@
         {
           "@type": "ListItem",
           "position": 4,
-          "name": "MediaTek NIO12L",
-          "item": {
-            "@type": "SoftwareSourceCode",
-            "name": "FreeBSD support for MediaTek NIO12L",
-            "description": "MediaTek NIO12L (MediaTek reference platform) FreeBSD board support branch.",
-            "codeRepository": "https://github.com/Martinfx/freebsd-src/tree/max-support-mediatek-nio12l",
-            "url": "https://github.com/Martinfx/freebsd-src/tree/max-support-mediatek-nio12l",
-            "programmingLanguage": "C",
-            "runtimePlatform": "FreeBSD",
-            "targetProduct": {
-              "@type": "SoftwareApplication",
-              "name": "MediaTek NIO12L",
-              "applicationCategory": "Operating system",
-              "operatingSystem": "FreeBSD"
-            },
-            "author": {
-              "@id": "https://sysctl.cz/#person"
-            }
-          }
-        },
-        {
-          "@type": "ListItem",
-          "position": 5,
           "name": "Raspberry Pi 3",
           "item": {
             "@type": "SoftwareSourceCode",
@@ -450,7 +427,7 @@
         },
         {
           "@type": "ListItem",
-          "position": 6,
+          "position": 5,
           "name": "Raspberry Pi 5",
           "item": {
             "@type": "SoftwareSourceCode",
@@ -490,7 +467,7 @@
           "name": "Which SoC boards are being brought up right now?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Four on my own bench: Banana Pi BPI-R64 (MediaTek MT7622, arm64), BPI-R2 Pro (Rockchip RK3568, arm64), BPI-R2 (MediaTek MT7623, armv7) and the MediaTek NIO12L reference platform. Two more are open SoCBSD arenas waiting for a contributor with the board: Raspberry Pi 3 (BCM2837) and Raspberry Pi 5 (BCM2712). Each has its own branch."
+            "text": "Three on my own bench: Banana Pi BPI-R64 (MediaTek MT7622, arm64), BPI-R2 Pro (Rockchip RK3568, arm64) and BPI-R2 (MediaTek MT7623, armv7). Two more are open SoCBSD arenas waiting for a contributor with the board: Raspberry Pi 3 (BCM2837) and Raspberry Pi 5 (BCM2712). Each has its own branch."
           }
         },
         {
@@ -644,7 +621,7 @@
 <section class="stats" aria-label="At a glance">
   <div class="container stats__grid">
     <div class="stat" data-reveal>
-      <span class="stat__num">4</span>
+      <span class="stat__num">3</span>
       <span class="stat__label">boards in bring-up</span>
     </div>
     <div class="stat" data-reveal>
@@ -849,7 +826,7 @@
       <p class="section__kicker">03 — Hardware</p>
       <h2 class="section__title" id="boards-title">Boards and open arenas</h2>
       <p class="section__lede">
-        Four of these are on my desk — I build and boot them myself. The two Raspberry Pi cards are
+        Three of these are on my desk — I build and boot them myself. The two Raspberry Pi cards are
         open SoCBSD arenas, waiting for someone who has the board in hand. Every card links to the
         branch where that work happens; all of them are still in bring-up.
       </p>
@@ -903,20 +880,6 @@
         <p class="board__desc">The 32-bit original of the R-series — armv7 rather than arm64.</p>
         <div class="board__foot">
           <code class="board__branch">max-support-bananapi-bpi-r2-7623</code>
-          <span class="board__when" data-branch-when></span>
-        </div>
-      </a>
-
-      <a class="board" data-vendor="mediatek" data-branch="Martinfx/freebsd-src:max-support-mediatek-nio12l"
-         href="https://github.com/Martinfx/freebsd-src/tree/max-support-mediatek-nio12l" target="_blank" rel="noopener" data-reveal>
-        <div class="board__head">
-          <h3 class="board__name">MediaTek NIO12L</h3>
-          <span class="status status--work">bring-up</span>
-        </div>
-        <p class="board__soc">MediaTek reference platform</p>
-        <p class="board__desc">Vendor reference hardware — a stable baseline for a new MediaTek SoC.</p>
-        <div class="board__foot">
-          <code class="board__branch">max-support-mediatek-nio12l</code>
           <span class="board__when" data-branch-when></span>
         </div>
       </a>
@@ -1126,10 +1089,10 @@
         <summary><h3>Which SoC boards are being brought up right now?</h3></summary>
         <div class="faq__a">
           <p>
-            Four on my own bench: Banana Pi BPI-R64 (MediaTek MT7622, arm64), BPI-R2 Pro
-            (Rockchip RK3568, arm64), BPI-R2 (MediaTek MT7623, armv7) and the MediaTek NIO12L
-            reference platform. Two more are open SoCBSD arenas waiting for a contributor with the
-            board: Raspberry Pi 3 (BCM2837) and Raspberry Pi 5 (BCM2712). Each has its own branch —
+            Three on my own bench: Banana Pi BPI-R64 (MediaTek MT7622, arm64), BPI-R2 Pro
+            (Rockchip RK3568, arm64) and BPI-R2 (MediaTek MT7623, armv7). Two more are open SoCBSD
+            arenas waiting for a contributor with the board: Raspberry Pi 3 (BCM2837) and
+            Raspberry Pi 5 (BCM2712). Each has its own branch —
             see <a href="#boards">Boards and open arenas</a>.
           </p>
         </div>
