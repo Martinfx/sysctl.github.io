@@ -12,7 +12,7 @@ kernel and driver patches, and ports maintenance.
 | Hero | Positioning + an animated FreeBSD boot log on the BPI-R2 Pro console |
 | About | Profile, what I work on, skills, direct contact |
 | Projects | SoCBSD, FreeBSD Ports, and the per-board `freebsd-src` branches |
-| Boards | Every board on the bench, each card linking to the branch carrying its support |
+| Boards | The four boards in bring-up plus the open SoCBSD arenas, each card linking to its branch |
 | Upstream | The path a patch takes, plus links across the FreeBSD ecosystem |
 | How it works | The SoCBSD rules — own the hardware, verify, clean provenance |
 | FAQ | Long-tail questions, marked up as `FAQPage` for rich results |

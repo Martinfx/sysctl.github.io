@@ -490,7 +490,7 @@
           "name": "Which SoC boards are being brought up right now?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Six: Banana Pi BPI-R64 (MediaTek MT7622, arm64), BPI-R2 Pro (Rockchip RK3568, arm64), BPI-R2 (MediaTek MT7623, armv7), the MediaTek NIO12L reference platform, and the Raspberry Pi 3 (BCM2837) and Raspberry Pi 5 (BCM2712) arenas in SoCBSD. Each one has its own branch."
+            "text": "Four on my own bench: Banana Pi BPI-R64 (MediaTek MT7622, arm64), BPI-R2 Pro (Rockchip RK3568, arm64), BPI-R2 (MediaTek MT7623, armv7) and the MediaTek NIO12L reference platform. Two more are open SoCBSD arenas waiting for a contributor with the board: Raspberry Pi 3 (BCM2837) and Raspberry Pi 5 (BCM2712). Each has its own branch."
           }
         },
         {
@@ -514,7 +514,7 @@
           "name": "Can I contribute support for a board I own?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes - that is the whole point. Open an arena for your board or join an existing one. The rules are short: you must physically own the hardware, you must verify what you claim (untested code gets you banned), no GPL code may be copied in, and you commit under a real name so the work can go upstream."
+            "text": "Yes - that is the whole point. Open an arena for your board or join an existing one. The rules are short: you must physically own the hardware, you must verify what you claim (untested code is not merged), no GPL code may be copied in, and you commit under a real name so the work can go upstream."
           }
         },
         {
@@ -522,7 +522,7 @@
           "name": "Does any of this reach upstream FreeBSD?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "That is the destination, not a side effect. A change starts on a per-board branch, hardens in a SoCBSD arena, goes through review on Phabricator and GitHub, and lands in freebsd-src or the ports tree. Ports work goes the same route - over 560 commits of new ports, build-failure fixes and cross-architecture cleanups."
+            "text": "Upstream is the destination, not a side effect. A change starts on a per-board branch, stabilises in a SoCBSD arena, goes through review on Phabricator and GitHub, and is submitted to freebsd-src or the ports tree. Ports work takes the same route; my ports repository holds over 560 commits of new ports, build-failure fixes and cross-architecture cleanups."
           }
         },
         {
@@ -602,8 +602,8 @@
       </h1>
 
       <p class="hero__lede" data-reveal>
-        SoC bring-up, kernel and driver work, and ports maintenance — done in the open,
-        verified on hardware I actually own, and pushed upstream where it belongs.
+        SoC bring-up, kernel and driver work, and ports maintenance — developed in the open,
+        tested on the hardware in front of me, and submitted upstream.
       </p>
 
       <div class="hero__cta" data-reveal>
@@ -632,7 +632,7 @@
         <div class="term__bar">
           <span class="term__dots" aria-hidden="true"><i></i><i></i><i></i></span>
           <span class="term__title">console — bpi-r2pro</span>
-          <span class="term__badge">live</span>
+          <span class="term__badge">sample</span>
         </div>
         <pre class="term__body" id="term-body" aria-label="Simulated FreeBSD boot log"></pre>
       </div>
@@ -644,7 +644,7 @@
 <section class="stats" aria-label="At a glance">
   <div class="container stats__grid">
     <div class="stat" data-reveal>
-      <span class="stat__num">6</span>
+      <span class="stat__num">4</span>
       <span class="stat__label">boards in bring-up</span>
     </div>
     <div class="stat" data-reveal>
@@ -657,7 +657,7 @@
     </div>
     <div class="stat" data-reveal>
       <span class="stat__num">2</span>
-      <span class="stat__label">upstream trees</span>
+      <span class="stat__label">open arenas</span>
     </div>
   </div>
 </section>
@@ -679,8 +679,8 @@
           tree. From there it's clocks, pinctrl, MMC, USB and Ethernet until there's a login prompt —
           then the same work again, cleaned up, for upstream. I run
           <a href="https://github.com/SoCBSD" target="_blank" rel="noopener">SoCBSD</a> so that effort
-          doesn't die on one person's branch, and I maintain FreeBSD ports so the result is something
-          you can actually install software on.
+          doesn't die on one person's branch, and I maintain FreeBSD ports so there is software to
+          install once a board boots.
         </p>
         <p class="about__body">
           Open to collaboration on driver work, board bring-up and ports maintenance — including
@@ -751,13 +751,13 @@
           <span class="card__icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><rect x="9" y="9" width="6" height="6" rx="1.2"/><path d="M9 1.8v2.2M15 1.8v2.2M9 20v2.2M15 20v2.2M1.8 9H4M1.8 15H4M20 9h2.2M20 15h2.2"/></svg>
           </span>
-          <span class="tag tag--accent">flagship</span>
+          <span class="tag tag--accent">main project</span>
         </div>
         <h3 class="card__title">SoCBSD</h3>
         <p class="card__desc">
           A FreeBSD fork dedicated to SoC board bring-up — <em>a playground, not a distro.</em>
-          Hundreds of boards run Linux; a handful run FreeBSD. SoCBSD is where that gap gets
-          closed: bring a board up, stabilise it, then take the work upstream.
+          Far more SoC boards run vendor Linux than run FreeBSD. SoCBSD is a place to work on
+          that: bring a board up, stabilise it, then submit the work upstream.
         </p>
         <ul class="card__meta">
           <li><span class="k">org</span><span class="v">SoCBSD</span></li>
@@ -818,7 +818,7 @@
         <p class="card__desc">
           My working tree against FreeBSD <code>main</code>: per-board support branches for
           MediaTek and Rockchip platforms, plus standalone fixes such as the Bluetooth stack patch.
-          Each branch is a self-contained bring-up you can build and boot.
+          Each branch is self-contained — one board, built against FreeBSD main.
         </p>
         <ul class="card__meta">
           <li><span class="k">repo</span><span class="v">Martinfx/freebsd-src</span></li>
@@ -847,7 +847,7 @@
   <div class="container">
     <header class="section__head" data-reveal>
       <p class="section__kicker">03 — Hardware</p>
-      <h2 class="section__title" id="boards-title">Boards on the bench</h2>
+      <h2 class="section__title" id="boards-title">Boards and open arenas</h2>
       <p class="section__lede">
         Four of these are on my desk — I build and boot them myself. The two Raspberry Pi cards are
         open SoCBSD arenas, waiting for someone who has the board in hand. Every card links to the
@@ -900,7 +900,7 @@
           <span class="status status--work">bring-up</span>
         </div>
         <p class="board__soc">MediaTek MT7623 · armv7</p>
-        <p class="board__desc">The 32-bit original of the R-series — the awkward one, and the interesting one.</p>
+        <p class="board__desc">The 32-bit original of the R-series — armv7 rather than arm64.</p>
         <div class="board__foot">
           <code class="board__branch">max-support-bananapi-bpi-r2-7623</code>
           <span class="board__when" data-branch-when></span>
@@ -914,7 +914,7 @@
           <span class="status status--work">bring-up</span>
         </div>
         <p class="board__soc">MediaTek reference platform</p>
-        <p class="board__desc">Vendor reference hardware — the cleanest place to get a new MediaTek SoC talking.</p>
+        <p class="board__desc">Vendor reference hardware — a stable baseline for a new MediaTek SoC.</p>
         <div class="board__foot">
           <code class="board__branch">max-support-mediatek-nio12l</code>
           <span class="board__when" data-branch-when></span>
@@ -942,7 +942,7 @@
           <span class="status status--arena">arena open</span>
         </div>
         <p class="board__soc">Broadcom BCM2712 · arm64</p>
-        <p class="board__desc">A SoCBSD arena — newest Pi silicon, plenty still unmapped.</p>
+        <p class="board__desc">A SoCBSD arena — the newest Pi silicon, and the one with the most left to do.</p>
         <div class="board__foot">
           <code class="board__branch">arena/raspberry-pi-5</code>
           <span class="board__when" data-branch-when></span>
@@ -962,11 +962,11 @@
   <div class="container">
     <header class="section__head" data-reveal>
       <p class="section__kicker">04 — Upstream</p>
-      <h2 class="section__title" id="upstream-title">Plugged into the whole FreeBSD world</h2>
+      <h2 class="section__title" id="upstream-title">From branch to upstream</h2>
       <p class="section__lede">
-        None of this is a private fork that goes nowhere. Board support starts on a branch,
-        hardens in a SoCBSD arena, goes through review, and ends up in the trees and wiki pages
-        the rest of the project actually uses.
+        The fork is a staging area, not a destination. Board support starts on a branch,
+        stabilises in a SoCBSD arena, goes through review, and is submitted to the FreeBSD
+        trees and wiki pages.
       </p>
     </header>
 
@@ -979,21 +979,21 @@
       <li class="flow__step">
         <span class="flow__n">02</span>
         <h3>Arena</h3>
-        <p>Promoted into a SoCBSD arena so other owners of the same board can pile on.</p>
+        <p>Promoted into a SoCBSD arena so other owners of the same board can contribute.</p>
       </li>
       <li class="flow__step">
         <span class="flow__n">03</span>
         <h3>Review</h3>
-        <p>Bots plus humans on Phabricator and GitHub — clean provenance, real names, boot logs.</p>
+        <p>Automated checks and human review on Phabricator and GitHub — clean provenance, real names, boot logs.</p>
       </li>
       <li class="flow__step flow__step--end">
         <span class="flow__n">04</span>
         <h3>Upstream</h3>
-        <p>Lands in <code>freebsd-src</code> / the ports tree, and the wiki board page gets updated.</p>
+        <p>Submitted to <code>freebsd-src</code> or the ports tree, with the wiki board page updated to match.</p>
       </li>
     </ol>
 
-    <h3 class="eco__heading" data-reveal>Where I work with the project</h3>
+    <h3 class="eco__heading" data-reveal>The FreeBSD ecosystem this work sits in</h3>
 
     <div class="eco" data-reveal>
       <a class="eco__tile" href="https://www.freebsd.org/" target="_blank" rel="noopener">
@@ -1034,7 +1034,7 @@
       <a class="eco__tile" href="https://freebsdfoundation.org/" target="_blank" rel="noopener">
         <span class="eco__name">FreeBSD Foundation</span>
         <span class="eco__host">freebsdfoundation.org</span>
-        <span class="eco__desc">Backing the project and its embedded push.</span>
+        <span class="eco__desc">Funds and supports FreeBSD development.</span>
       </a>
       <a class="eco__tile" href="https://forums.freebsd.org/" target="_blank" rel="noopener">
         <span class="eco__name">FreeBSD Forums</span>
@@ -1055,7 +1055,7 @@
   <div class="container">
     <header class="section__head" data-reveal>
       <p class="section__kicker">05 — How SoCBSD works</p>
-      <h2 class="section__title" id="rules-title">Fast to merge, impossible to fake</h2>
+      <h2 class="section__title" id="rules-title">The rules of the fork</h2>
       <p class="section__lede">
         Work happens in seasonal <em>games</em>: boards are the arenas, contributors are the players.
         The rules exist so that everything merged can survive the trip upstream.
@@ -1076,7 +1076,7 @@
       <li class="rule" data-reveal>
         <span class="rule__n">03</span>
         <h3>Verify, then claim</h3>
-        <p>Untested code gets you banned. A boot log is worth more than a paragraph of intent.</p>
+        <p>Untested code is not merged. A claim about hardware needs a boot log behind it.</p>
       </li>
       <li class="rule" data-reveal>
         <span class="rule__n">04</span>
@@ -1102,9 +1102,9 @@
   <div class="container">
     <header class="section__head" data-reveal>
       <p class="section__kicker">06 — FAQ</p>
-      <h2 class="section__title" id="faq-title">Questions people actually ask</h2>
+      <h2 class="section__title" id="faq-title">Frequently asked questions</h2>
       <p class="section__lede">
-        The things that land in my inbox and in the FreeBSD forums, answered once, here.
+        The questions that come up most often by e-mail and in the FreeBSD forums.
       </p>
     </header>
 
@@ -1126,10 +1126,11 @@
         <summary><h3>Which SoC boards are being brought up right now?</h3></summary>
         <div class="faq__a">
           <p>
-            Six: Banana Pi BPI-R64 (MediaTek MT7622, arm64), BPI-R2 Pro (Rockchip RK3568, arm64),
-            BPI-R2 (MediaTek MT7623, armv7), the MediaTek NIO12L reference platform, and the
-            Raspberry Pi 3 (BCM2837) and Raspberry Pi 5 (BCM2712) arenas in SoCBSD. Each one has its
-            own branch — see <a href="#boards">Boards on the bench</a>.
+            Four on my own bench: Banana Pi BPI-R64 (MediaTek MT7622, arm64), BPI-R2 Pro
+            (Rockchip RK3568, arm64), BPI-R2 (MediaTek MT7623, armv7) and the MediaTek NIO12L
+            reference platform. Two more are open SoCBSD arenas waiting for a contributor with the
+            board: Raspberry Pi 3 (BCM2837) and Raspberry Pi 5 (BCM2712). Each has its own branch —
+            see <a href="#boards">Boards and open arenas</a>.
           </p>
         </div>
       </details>
@@ -1168,7 +1169,7 @@ make -j$(sysctl -n hw.ncpu) buildworld buildkernel \
           <p>
             Yes — that is the whole point. Open an arena for your board or join an existing one. The
             rules are short: you must physically own the hardware, you must verify what you claim
-            (untested code gets you banned), no GPL code may be copied in, and you commit under a real
+            (untested code is not merged), no GPL code may be copied in, and you commit under a real
             name so the work can go upstream. See <a href="#rules">how SoCBSD works</a>.
           </p>
         </div>
@@ -1178,10 +1179,11 @@ make -j$(sysctl -n hw.ncpu) buildworld buildkernel \
         <summary><h3>Does any of this reach upstream FreeBSD?</h3></summary>
         <div class="faq__a">
           <p>
-            That is the destination, not a side effect. A change starts on a per-board branch, hardens
-            in a SoCBSD arena, goes through review on Phabricator and GitHub, and lands in
-            <code>freebsd-src</code> or the ports tree. Ports work goes the same route —
-            over 560 commits of new ports, build-failure fixes and cross-architecture cleanups.
+            Upstream is the destination, not a side effect. A change starts on a per-board branch,
+            stabilises in a SoCBSD arena, goes through review on Phabricator and GitHub, and is
+            submitted to <code>freebsd-src</code> or the ports tree. Ports work takes the same route;
+            my ports repository holds over 560 commits of new ports, build-failure fixes and
+            cross-architecture cleanups.
           </p>
         </div>
       </details>
@@ -1218,8 +1220,8 @@ make -j$(sysctl -n hw.ncpu) buildworld buildkernel \
         <ul class="collab__steps">
           <li><span class="collab__i">1</span><div><strong>Pick an arena</strong><p>Take an open board, or propose a new one you own.</p></div></li>
           <li><span class="collab__i">2</span><div><strong>Build and boot it</strong><p>Clone the tree, cut a branch, get to a console.</p></div></li>
-          <li><span class="collab__i">3</span><div><strong>Send the PR</strong><p>Boot log attached. Review is fast; merges are faster.</p></div></li>
-          <li><span class="collab__i">4</span><div><strong>Upstream it</strong><p>Once it's stable, it goes where everyone benefits.</p></div></li>
+          <li><span class="collab__i">3</span><div><strong>Send the PR</strong><p>Boot log attached — that is what makes the change reviewable.</p></div></li>
+          <li><span class="collab__i">4</span><div><strong>Upstream it</strong><p>Once it is stable, it is submitted to FreeBSD.</p></div></li>
         </ul>
 
         <div class="collab__cta">
@@ -1307,7 +1309,7 @@ git checkout -b arena/my-board gamemaster">
     </nav>
   </div>
   <div class="container footer__bar">
-    <p>© <span id="year">2026</span> Martin Fx · Built for the boards nobody ported yet.</p>
+    <p>© <span id="year">2026</span> Martin Fx · sysctl.cz</p>
     <a class="footer__top" href="#top">Back to top ↑</a>
   </div>
 </footer>
