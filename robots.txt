@@ -1,4 +1,17 @@
+# https://sysctl.cz/ — FreeBSD SoC bring-up, kernel & ports
+
 User-agent: *
 Allow: /
+Disallow: /assets/js/
 
-Sitemap: https://martinfx.github.io/sysctl.github.io/sitemap.xml
+# Crawlers that ignore the wildcard block above
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+Sitemap: https://sysctl.cz/sitemap.xml

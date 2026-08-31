@@ -3,18 +3,20 @@
 A static, dependency-free site presenting my FreeBSD work: SoC board bring-up,
 kernel and driver patches, and ports maintenance.
 
-**Live:** https://martinfx.github.io/sysctl.github.io/
+**Live:** https://sysctl.cz/
 
 ## What's on it
 
 | Section | Content |
 | --- | --- |
 | Hero | Positioning + an animated FreeBSD boot log on the BPI-R2 Pro console |
+| About | Profile, what I work on, skills, direct contact |
 | Projects | SoCBSD, FreeBSD Ports, and the per-board `freebsd-src` branches |
 | Boards | Every board on the bench, each card linking to the branch carrying its support |
 | Upstream | The path a patch takes, plus links across the FreeBSD ecosystem |
 | How it works | The SoCBSD rules — own the hardware, verify, clean provenance |
-| Collaborate | How to open an arena and send a PR |
+| FAQ | Long-tail questions, marked up as `FAQPage` for rich results |
+| Collaborate | How to open an arena and send a PR, plus e-mail and Discord |
 
 ## Stack
 
@@ -23,11 +25,21 @@ Open `index.html` and it works.
 
 ```
 index.html              all page content lives here
+404.html                custom not-found page (GitHub Pages serves it site-wide)
 assets/css/style.css    design tokens + every component
 assets/js/main.js       theme, nav, filters, boot animation, live GitHub data
 assets/img/favicon.svg  tab icon
 assets/img/og.png       social preview card (1200×630)
+CNAME                   the custom domain — load-bearing under branch publishing
+site.webmanifest        PWA manifest
+sitemap.xml             one URL, with lastmod and an image entry
+robots.txt              crawl rules + sitemap pointer
+humans.txt              who built it
 ```
+
+`404.html` uses root-relative asset paths (`/assets/...`) because GitHub Pages serves
+it at any depth; `index.html` uses relative paths. Don't "fix" that inconsistency —
+it's what makes the 404 render correctly on a nested URL.
 
 Features: dark/light theme (respects the OS setting, remembers your choice),
 scroll reveals, board filtering by SoC vendor, a scrollspy nav, and live star
@@ -37,6 +49,33 @@ the page still reads correctly.
 
 Accessibility: skip link, focus-visible outlines, `prefers-reduced-motion`
 honoured (animations off, boot log rendered in full), semantic landmarks.
+
+## SEO
+
+Everything here is legitimate technical SEO — no cloaking, no keyword stuffing,
+no schema that claims more than the page shows.
+
+- **Meta**: title (45 chars), description (165), canonical, `robots` /
+  `googlebot` with `max-image-preview:large`, hreflang self-reference plus
+  `x-default`, full Open Graph set with image dimensions and alt text, Twitter
+  summary-large-image card, `fediverse:creator`.
+- **Structured data**: a single JSON-LD `@graph` with `WebSite`, `ProfilePage`,
+  `ImageObject`, `Person` (skills, contact point, `sameAs`), `Organization`
+  (SoCBSD), `BreadcrumbList`, two `ItemList`s (projects and boards, as
+  `SoftwareSourceCode`), and `FAQPage`.
+- **`rel="me"`** on the GitHub and Mastodon links. The Mastodon one is what
+  earns the verified green link on the profile — add `https://sysctl.cz/` to the
+  Mastodon profile metadata to complete the handshake.
+- **Content**: the FAQ answers real long-tail queries ("does FreeBSD run on the
+  Banana Pi BPI-R64?"). If you edit an answer, edit the matching `FAQPage` entry
+  in the JSON-LD too — Google drops FAQ rich results when the schema and the
+  visible text disagree.
+- **Crawl/UX signals**: single `h1`, no heading-level jumps, every external link
+  carries `rel="noopener"`, no horizontal overflow, `aria-labelledby` on each
+  section, and a real 404 page so missing URLs don't become soft 404s.
+
+After going live, submit `https://sysctl.cz/sitemap.xml` in Google Search Console
+and Bing Webmaster Tools — nothing on this page substitutes for that.
 
 ## Editing content
 
@@ -81,19 +120,28 @@ change the name, SoC line, description, `href` and `data-branch`.
 
 ## Publishing
 
-The repo is `Martinfx/sysctl.github.io`, so Pages serves it from a subpath:
-`https://martinfx.github.io/sysctl.github.io/`. All asset paths are relative, so
-that works as-is.
+The site is served at **https://sysctl.cz/** via a custom domain. Because a custom
+domain moves a project site to the domain root, no `/sysctl.github.io/` path prefix
+applies and every asset path in the page is relative, so nothing needs rewriting.
 
-To get it on `https://martinfx.github.io/` instead, the repo has to be renamed to
-`Martinfx.github.io` — GitHub only treats `<user>.github.io` as a user site.
+DNS at the registrar (WEDOS), for the apex:
 
-Two ways to turn it on, under **Settings → Pages**:
+| Name | Type | Value |
+| --- | --- | --- |
+| *(empty)* | A | `185.199.108.153` |
+| *(empty)* | A | `185.199.109.153` |
+| *(empty)* | A | `185.199.110.153` |
+| *(empty)* | A | `185.199.111.153` |
+| `www` | CNAME | `martinfx.github.io.` |
 
-- **Deploy from a branch** — pick `main` / `/ (root)`. `.nojekyll` is committed so
-  the files are served as-is.
-- **GitHub Actions** — `.github/workflows/pages.yml` handles it on every push to
-  `main`.
+The `www` CNAME points at the **user** Pages host, not at this repo — the repo name
+never appears in DNS. WEDOS stages record edits: after saving each one you must press
+**Aplikovat změny** above the records table, or nothing goes live.
+
+Under **Settings → Pages**, the publishing source is **Deploy from a branch**
+(`main` / `/ (root)`). `.nojekyll` is committed so files are served as-is, and the
+`CNAME` file holds the domain — with branch publishing that file is load-bearing,
+so don't delete it.
 
 ## Local preview
 

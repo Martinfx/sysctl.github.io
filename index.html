@@ -3,28 +3,70 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>sysctl — FreeBSD SoC bring-up, kernel &amp; ports</title>
-<meta name="description" content="Martin Fx — low-level FreeBSD work: SoC board bring-up on Banana Pi R64, R2 Pro, R2 and Raspberry Pi, kernel and driver patches, and FreeBSD ports maintenance. Open, verified on real hardware, pushed upstream.">
+<meta name="description" content="FreeBSD SoC board bring-up: Banana Pi BPI-R64, BPI-R2 Pro, BPI-R2 and Raspberry Pi. Kernel and driver patches, FreeBSD ports maintenance — verified on real hardware.">
+<link rel="canonical" href="https://sysctl.cz/">
+
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="bingbot" content="index, follow">
 <meta name="author" content="Martin Fx">
+<meta name="creator" content="Martin Fx">
+<meta name="publisher" content="Martin Fx">
+<meta name="keywords" content="FreeBSD, SoC bring-up, embedded FreeBSD, Banana Pi BPI-R64, BPI-R2 Pro, BPI-R2, MediaTek MT7622, MT7623, MT7986, Rockchip RK3568, Raspberry Pi FreeBSD, arm64, aarch64, device tree, FreeBSD kernel driver, FreeBSD ports, SoCBSD, board bring-up, U-Boot, embedded BSD">
+<meta name="subject" content="FreeBSD SoC board bring-up and ports maintenance">
+<meta name="rating" content="general">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="format-detection" content="telephone=no">
+<meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#08090c" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
-<link rel="canonical" href="https://martinfx.github.io/sysctl.github.io/">
+<meta name="application-name" content="sysctl">
+<meta name="apple-mobile-web-app-title" content="sysctl">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="geo.region" content="CZ">
+<meta name="geo.placename" content="Czechia">
+
+<link rel="alternate" hreflang="en" href="https://sysctl.cz/">
+<link rel="alternate" hreflang="x-default" href="https://sysctl.cz/">
 
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="sysctl">
+<meta property="og:locale" content="en_GB">
 <meta property="og:title" content="sysctl — FreeBSD SoC bring-up, kernel &amp; ports">
-<meta property="og:description" content="SoC board bring-up, kernel and driver work, and ports maintenance for FreeBSD. Verified on real hardware, pushed upstream.">
-<meta property="og:url" content="https://martinfx.github.io/sysctl.github.io/">
-<meta property="og:image" content="https://martinfx.github.io/sysctl.github.io/assets/img/og.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="sysctl — FreeBSD SoC bring-up, kernel &amp; ports">
-<meta name="twitter:description" content="SoC board bring-up, kernel and driver work, and ports maintenance for FreeBSD.">
-<meta name="twitter:image" content="https://martinfx.github.io/sysctl.github.io/assets/img/og.png">
+<meta property="og:description" content="FreeBSD on SoC boards that never had it: Banana Pi BPI-R64, BPI-R2 Pro, BPI-R2, MediaTek NIO12L and Raspberry Pi bring-up, kernel and driver patches, and ports maintenance. Verified on real hardware, pushed upstream.">
+<meta property="og:url" content="https://sysctl.cz/">
+<meta property="og:image" content="https://sysctl.cz/assets/img/og.png">
+<meta property="og:image:secure_url" content="https://sysctl.cz/assets/img/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="sysctl — Getting FreeBSD onto the boards it doesn't run on yet. Board tags: BPI-R64, BPI-R2 Pro, BPI-R2, NIO12L, RPi 3 / 5.">
 
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:domain" content="sysctl.cz">
+<meta name="twitter:url" content="https://sysctl.cz/">
+<meta name="twitter:title" content="sysctl — FreeBSD SoC bring-up, kernel &amp; ports">
+<meta name="twitter:description" content="FreeBSD on SoC boards that never had it: Banana Pi BPI-R64, BPI-R2 Pro, BPI-R2 and Raspberry Pi bring-up, kernel patches, ports maintenance.">
+<meta name="twitter:image" content="https://sysctl.cz/assets/img/og.png">
+<meta name="twitter:image:alt" content="sysctl — FreeBSD SoC bring-up. Boards: BPI-R64, BPI-R2 Pro, BPI-R2, NIO12L, Raspberry Pi 3 and 5.">
+
+<link rel="me" href="https://github.com/Martinfx">
+<link rel="me" href="https://mastodon.bsd.cafe/@martin">
+<meta name="fediverse:creator" content="@martin@mastodon.bsd.cafe">
+<link rel="author" href="https://github.com/Martinfx">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/favicon.svg">
+<link rel="manifest" href="site.webmanifest">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="dns-prefetch" href="https://api.github.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/css/style.css">
 
@@ -40,14 +82,463 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Martin Fx",
-  "url": "https://martinfx.github.io/sysctl.github.io/",
-  "sameAs": ["https://github.com/Martinfx", "https://github.com/SoCBSD"],
-  "jobTitle": "Systems & embedded developer",
-  "knowsAbout": ["FreeBSD", "Kernel development", "SoC bring-up", "ARM64", "Device drivers", "FreeBSD ports"]
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://sysctl.cz/#website",
+      "url": "https://sysctl.cz/",
+      "name": "sysctl",
+      "alternateName": "sysctl - FreeBSD SoC bring-up",
+      "description": "FreeBSD SoC board bring-up, kernel and driver patches, and ports maintenance.",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://sysctl.cz/#person"
+      },
+      "copyrightHolder": {
+        "@id": "https://sysctl.cz/#person"
+      }
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": "https://sysctl.cz/#webpage",
+      "url": "https://sysctl.cz/",
+      "name": "sysctl - FreeBSD SoC bring-up, kernel & ports",
+      "isPartOf": {
+        "@id": "https://sysctl.cz/#website"
+      },
+      "about": {
+        "@id": "https://sysctl.cz/#person"
+      },
+      "mainEntity": {
+        "@id": "https://sysctl.cz/#person"
+      },
+      "inLanguage": "en",
+      "primaryImageOfPage": {
+        "@id": "https://sysctl.cz/#og"
+      },
+      "breadcrumb": {
+        "@id": "https://sysctl.cz/#breadcrumb"
+      },
+      "significantLink": [
+        "https://github.com/SoCBSD",
+        "https://github.com/Martinfx/FreeBSD-Ports",
+        "https://www.freebsd.org/",
+        "https://wiki.freebsd.org/arm/Bananapi"
+      ]
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://sysctl.cz/#og",
+      "url": "https://sysctl.cz/assets/img/og.png",
+      "contentUrl": "https://sysctl.cz/assets/img/og.png",
+      "width": 1200,
+      "height": 630,
+      "encodingFormat": "image/png",
+      "caption": "sysctl - Getting FreeBSD onto the boards it doesn't run on yet."
+    },
+    {
+      "@type": "Person",
+      "@id": "https://sysctl.cz/#person",
+      "name": "Martin Fx",
+      "url": "https://sysctl.cz/",
+      "mainEntityOfPage": {
+        "@id": "https://sysctl.cz/#webpage"
+      },
+      "jobTitle": "Systems and embedded developer",
+      "description": "FreeBSD developer working on SoC board bring-up, kernel and device drivers, and ports maintenance.",
+      "sameAs": [
+        "https://github.com/Martinfx",
+        "https://github.com/SoCBSD",
+        "https://mastodon.bsd.cafe/@martin"
+      ],
+      "knowsAbout": [
+        "FreeBSD",
+        "Operating system kernel development",
+        "SoC board bring-up",
+        "ARM64 / AArch64",
+        "ARMv7",
+        "Device drivers",
+        "Device tree (DTS)",
+        "MediaTek MT7622",
+        "MediaTek MT7623",
+        "Rockchip RK3568",
+        "Broadcom BCM2837",
+        "FreeBSD ports",
+        "U-Boot",
+        "Embedded systems",
+        "C programming"
+      ],
+      "knowsLanguage": [
+        "en",
+        "cs"
+      ],
+      "seeks": {
+        "@type": "Demand",
+        "name": "Collaboration on FreeBSD driver work and SoC board bring-up"
+      },
+      "email": "freebsd@sysctl.cz",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Professional enquiries",
+        "email": "freebsd@sysctl.cz",
+        "availableLanguage": [
+          "en",
+          "cs"
+        ]
+      },
+      "nationality": {
+        "@type": "Country",
+        "name": "Czechia"
+      },
+      "workLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "CZ"
+        }
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://github.com/SoCBSD#organization",
+      "name": "SoCBSD",
+      "url": "https://github.com/SoCBSD",
+      "description": "A FreeBSD fork dedicated to SoC board bring-up. A playground, not a distro.",
+      "member": {
+        "@id": "https://sysctl.cz/#person"
+      },
+      "sameAs": [
+        "https://discord.gg/qHCeXUMVr"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Community chat",
+        "url": "https://discord.gg/qHCeXUMVr"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://sysctl.cz/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sysctl.cz/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "About",
+          "item": "https://sysctl.cz/#about"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Projects",
+          "item": "https://sysctl.cz/#projects"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Boards",
+          "item": "https://sysctl.cz/#boards"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Upstream",
+          "item": "https://sysctl.cz/#upstream"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "How it works",
+          "item": "https://sysctl.cz/#rules"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "FAQ",
+          "item": "https://sysctl.cz/#faq"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Collaborate",
+          "item": "https://sysctl.cz/#collab"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://sysctl.cz/#projects",
+      "name": "Projects",
+      "itemListOrder": "https://schema.org/ItemListOrderDescending",
+      "numberOfItems": 3,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "SoftwareSourceCode",
+            "name": "SoCBSD",
+            "description": "A FreeBSD fork dedicated to SoC board bring-up - a playground, not a distro.",
+            "codeRepository": "https://github.com/SoCBSD/socbsd-src",
+            "url": "https://github.com/SoCBSD/socbsd-src",
+            "programmingLanguage": "C",
+            "runtimePlatform": "FreeBSD",
+            "author": {
+              "@id": "https://sysctl.cz/#person"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "SoftwareSourceCode",
+            "name": "FreeBSD Ports",
+            "description": "New ports, build-failure fixes, dependency bumps and cross-architecture cleanups for the FreeBSD ports tree.",
+            "codeRepository": "https://github.com/Martinfx/FreeBSD-Ports",
+            "url": "https://github.com/Martinfx/FreeBSD-Ports",
+            "programmingLanguage": "Makefile",
+            "runtimePlatform": "FreeBSD",
+            "author": {
+              "@id": "https://sysctl.cz/#person"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "SoftwareSourceCode",
+            "name": "freebsd-src patches",
+            "description": "Per-board FreeBSD support branches for MediaTek and Rockchip platforms, plus standalone kernel fixes.",
+            "codeRepository": "https://github.com/Martinfx/freebsd-src",
+            "url": "https://github.com/Martinfx/freebsd-src",
+            "programmingLanguage": "C",
+            "runtimePlatform": "FreeBSD",
+            "author": {
+              "@id": "https://sysctl.cz/#person"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://sysctl.cz/#boards",
+      "name": "SoC boards in bring-up",
+      "numberOfItems": 6,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Banana Pi BPI-R64",
+          "item": {
+            "@type": "SoftwareSourceCode",
+            "name": "FreeBSD support for Banana Pi BPI-R64",
+            "description": "Banana Pi BPI-R64 (MediaTek MT7622, arm64) FreeBSD board support branch.",
+            "codeRepository": "https://github.com/Martinfx/freebsd-src/tree/max-support-mediatek-7622-bananapir64",
+            "url": "https://github.com/Martinfx/freebsd-src/tree/max-support-mediatek-7622-bananapir64",
+            "programmingLanguage": "C",
+            "runtimePlatform": "FreeBSD",
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "Banana Pi BPI-R64",
+              "applicationCategory": "Operating system",
+              "operatingSystem": "FreeBSD"
+            },
+            "author": {
+              "@id": "https://sysctl.cz/#person"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Banana Pi BPI-R2 Pro",
+          "item": {
+            "@type": "SoftwareSourceCode",
+            "name": "FreeBSD support for Banana Pi BPI-R2 Pro",
+            "description": "Banana Pi BPI-R2 Pro (Rockchip RK3568, arm64) FreeBSD board support branch.",
+            "codeRepository": "https://github.com/Martinfx/freebsd-src/tree/max-support-bananapi-r2-pro",
+            "url": "https://github.com/Martinfx/freebsd-src/tree/max-support-bananapi-r2-pro",
+            "programmingLanguage": "C",
+            "runtimePlatform": "FreeBSD",
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "Banana Pi BPI-R2 Pro",
+              "applicationCategory": "Operating system",
+              "operatingSystem": "FreeBSD"
+            },
+            "author": {
+              "@id": "https://sysctl.cz/#person"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Banana Pi BPI-R2",
+          "item": {
+            "@type": "SoftwareSourceCode",
+            "name": "FreeBSD support for Banana Pi BPI-R2",
+            "description": "Banana Pi BPI-R2 (MediaTek MT7623, armv7) FreeBSD board support branch.",
+            "codeRepository": "https://github.com/Martinfx/freebsd-src/tree/max-support-bananapi-bpi-r2-7623",
+            "url": "https://github.com/Martinfx/freebsd-src/tree/max-support-bananapi-bpi-r2-7623",
+            "programmingLanguage": "C",
+            "runtimePlatform": "FreeBSD",
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "Banana Pi BPI-R2",
+              "applicationCategory": "Operating system",
+              "operatingSystem": "FreeBSD"
+            },
+            "author": {
+              "@id": "https://sysctl.cz/#person"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "MediaTek NIO12L",
+          "item": {
+            "@type": "SoftwareSourceCode",
+            "name": "FreeBSD support for MediaTek NIO12L",
+            "description": "MediaTek NIO12L (MediaTek reference platform) FreeBSD board support branch.",
+            "codeRepository": "https://github.com/Martinfx/freebsd-src/tree/max-support-mediatek-nio12l",
+            "url": "https://github.com/Martinfx/freebsd-src/tree/max-support-mediatek-nio12l",
+            "programmingLanguage": "C",
+            "runtimePlatform": "FreeBSD",
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "MediaTek NIO12L",
+              "applicationCategory": "Operating system",
+              "operatingSystem": "FreeBSD"
+            },
+            "author": {
+              "@id": "https://sysctl.cz/#person"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Raspberry Pi 3",
+          "item": {
+            "@type": "SoftwareSourceCode",
+            "name": "FreeBSD support for Raspberry Pi 3",
+            "description": "Raspberry Pi 3 (Broadcom BCM2837, arm64) FreeBSD board support branch.",
+            "codeRepository": "https://github.com/SoCBSD/socbsd-src/tree/arena/raspberry-pi-3",
+            "url": "https://github.com/SoCBSD/socbsd-src/tree/arena/raspberry-pi-3",
+            "programmingLanguage": "C",
+            "runtimePlatform": "FreeBSD",
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "Raspberry Pi 3",
+              "applicationCategory": "Operating system",
+              "operatingSystem": "FreeBSD"
+            },
+            "author": {
+              "@id": "https://sysctl.cz/#person"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Raspberry Pi 5",
+          "item": {
+            "@type": "SoftwareSourceCode",
+            "name": "FreeBSD support for Raspberry Pi 5",
+            "description": "Raspberry Pi 5 (Broadcom BCM2712, arm64) FreeBSD board support branch.",
+            "codeRepository": "https://github.com/SoCBSD/socbsd-src/tree/arena/raspberry-pi-5",
+            "url": "https://github.com/SoCBSD/socbsd-src/tree/arena/raspberry-pi-5",
+            "programmingLanguage": "C",
+            "runtimePlatform": "FreeBSD",
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "Raspberry Pi 5",
+              "applicationCategory": "Operating system",
+              "operatingSystem": "FreeBSD"
+            },
+            "author": {
+              "@id": "https://sysctl.cz/#person"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://sysctl.cz/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does FreeBSD run on the Banana Pi BPI-R64?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not out of the box - there is no BPI-R64 image on the FreeBSD download page. Support for its MediaTek MT7622 SoC is what the max-support-mediatek-7622-bananapir64 branch adds: device tree, clocks, pinctrl and the drivers needed to reach a console. Build that branch for TARGET=arm64 and you get a bootable system on the board."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which SoC boards are being brought up right now?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Six: Banana Pi BPI-R64 (MediaTek MT7622, arm64), BPI-R2 Pro (Rockchip RK3568, arm64), BPI-R2 (MediaTek MT7623, armv7), the MediaTek NIO12L reference platform, and the Raspberry Pi 3 (BCM2837) and Raspberry Pi 5 (BCM2712) arenas in SoCBSD. Each one has its own branch."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is SoCBSD and how does it differ from FreeBSD?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SoCBSD is a FreeBSD fork with exactly one job: SoC board bring-up. It is a playground, not a distribution - no installer, no desktop, no divergent userland. Work lands there first because merging is fast, then goes upstream into FreeBSD once it is stable. Everything is written to be relicensable and upstream-ready from the first commit."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I build FreeBSD for an arm64 SoC board?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Clone the tree, check out the branch for your board, then cross-build world and kernel with: make -j$(sysctl -n hw.ncpu) buildworld buildkernel TARGET=arm64 TARGET_ARCH=aarch64. Then write the result to an SD card, attach a serial console and capture the boot log - that log is what a pull request needs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I contribute support for a board I own?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes - that is the whole point. Open an arena for your board or join an existing one. The rules are short: you must physically own the hardware, you must verify what you claim (untested code gets you banned), no GPL code may be copied in, and you commit under a real name so the work can go upstream."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does any of this reach upstream FreeBSD?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "That is the destination, not a side effect. A change starts on a per-board branch, hardens in a SoCBSD arena, goes through review on Phabricator and GitHub, and lands in freebsd-src or the ports tree. Ports work goes the same route - over 560 commits of new ports, build-failure fixes and cross-architecture cleanups."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are you available for embedded or driver work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes - board bring-up, device drivers, device trees, ports maintenance and long-term support contracts around FreeBSD on embedded hardware. Platforms worked on day to day are MediaTek, Rockchip and Broadcom. Write to freebsd@sysctl.cz or reach out on GitHub."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
+
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -69,10 +560,12 @@
     </a>
 
     <nav class="nav__links" id="nav-links" aria-label="Main">
+      <a href="#about">About</a>
       <a href="#projects">Projects</a>
       <a href="#boards">Boards</a>
       <a href="#upstream">Upstream</a>
       <a href="#rules">How it works</a>
+      <a href="#faq">FAQ</a>
       <a href="#collab">Collaborate</a>
     </nav>
 
@@ -169,12 +662,82 @@
   </div>
 </section>
 
+<!-- ─────────────────────────── ABOUT ─────────────────────────── -->
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="container">
+    <div class="about">
+      <div class="about__copy" data-reveal>
+        <p class="section__kicker">01 — About</p>
+        <h2 class="section__title" id="about-title">Martin Fx — systems &amp; embedded developer</h2>
+        <p class="section__lede">
+          I work where the operating system meets the silicon: getting FreeBSD to boot on hardware
+          that has only ever run vendor Linux, writing the drivers that make its peripherals usable,
+          and keeping the ports tree building across architectures.
+        </p>
+        <p class="about__body">
+          Most of what I do starts with a board on the desk, a serial cable, and no working device
+          tree. From there it's clocks, pinctrl, MMC, USB and Ethernet until there's a login prompt —
+          then the same work again, cleaned up, for upstream. I run
+          <a href="https://github.com/SoCBSD" target="_blank" rel="noopener">SoCBSD</a> so that effort
+          doesn't die on one person's branch, and I maintain FreeBSD ports so the result is something
+          you can actually install software on.
+        </p>
+        <p class="about__body">
+          Open to collaboration on driver work, board bring-up and ports maintenance — including
+          contract and long-term maintenance work.
+        </p>
+        <div class="about__cta">
+          <a class="btn btn--primary" href="mailto:freebsd@sysctl.cz">
+            freebsd@sysctl.cz
+            <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.8" y="3.2" width="12.4" height="9.6" rx="1.6"/><path d="m2.4 4.4 5.6 4 5.6-4"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="https://github.com/Martinfx" target="_blank" rel="me noopener">GitHub profile</a>
+          <a class="btn btn--ghost" href="https://mastodon.bsd.cafe/@martin" target="_blank" rel="me noopener">
+            <svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M14.7 5.6c0-3-2-3.9-2-3.9C11.7 1.2 10 1 8.2 1h-.1C6.4 1 4.7 1.2 3.7 1.7c0 0-2 .9-2 3.9v2.6c0 3 .5 5.7 3.3 6.4 1.3.4 2.4.4 3.3.4 1.6 0 2.5-.3 2.5-.3v-1.5s-1.1.3-2.4.3c-1.4 0-2.8-.1-3-1.8v-.3s1.3.3 2.9.4c1 0 1.9-.1 2.9-.2 1.9-.2 3.5-1.4 3.7-2.5.3-1.7.3-4.1.3-4.1Zm-2.4 4h-1.5V6c0-.8-.3-1.2-1-1.2s-1 .4-1 1.3v1.8H7.3V6.1c0-.9-.4-1.3-1-1.3s-1 .4-1 1.2v3.6H3.7V5.9c0-.8.2-1.4.6-1.9.4-.4 1-.7 1.7-.7.8 0 1.4.3 1.8.9l.4.6.4-.6c.4-.6 1-.9 1.8-.9.7 0 1.3.3 1.7.7.4.5.6 1.1.6 1.9v3.7Z"/></svg>
+            Mastodon
+          </a>
+        </div>
+      </div>
+
+      <div class="about__skills" data-reveal>
+        <h3 class="about__sk-title">What I work on</h3>
+        <dl class="skills">
+          <div class="skill">
+            <dt>Kernel &amp; drivers</dt>
+            <dd>Device trees, clocks, pinctrl, MMC/SD, USB, Ethernet and switch blocks, interrupt controllers</dd>
+          </div>
+          <div class="skill">
+            <dt>Silicon</dt>
+            <dd>MediaTek MT7622 · MT7623 · Rockchip RK3568 · Broadcom BCM2837 / BCM2712</dd>
+          </div>
+          <div class="skill">
+            <dt>Architectures</dt>
+            <dd>arm64 / aarch64, armv7, cross-builds from amd64</dd>
+          </div>
+          <div class="skill">
+            <dt>Boot &amp; debug</dt>
+            <dd>U-Boot, serial console bring-up, KDB / DDB, boot-log triage</dd>
+          </div>
+          <div class="skill">
+            <dt>Ports &amp; packaging</dt>
+            <dd>FreeBSD ports, Makefiles, dependency bumps, build-failure and cross-arch fixes</dd>
+          </div>
+          <div class="skill">
+            <dt>Languages</dt>
+            <dd>C, shell, make</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ─────────────────────────── PROJECTS ─────────────────────────── -->
-<section class="section" id="projects">
+<section class="section section--alt" id="projects" aria-labelledby="projects-title">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="section__kicker">01 — Projects</p>
-      <h2 class="section__title">What I build and maintain</h2>
+      <p class="section__kicker">02 — Projects</p>
+      <h2 class="section__title" id="projects-title">What I build and maintain</h2>
       <p class="section__lede">
         Three tracks that feed each other: a fork where board support is grown,
         the ports tree that makes the result usable, and the upstream trees where it lands.
@@ -280,11 +843,11 @@
 </section>
 
 <!-- ─────────────────────────── BOARDS ─────────────────────────── -->
-<section class="section section--alt" id="boards">
+<section class="section" id="boards" aria-labelledby="boards-title">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="section__kicker">02 — Hardware</p>
-      <h2 class="section__title">Boards on the bench</h2>
+      <p class="section__kicker">03 — Hardware</p>
+      <h2 class="section__title" id="boards-title">Boards on the bench</h2>
       <p class="section__lede">
         Every board here is one I own and boot myself. Each card points straight at the branch
         carrying its support — no vapourware, no untested claims.
@@ -394,11 +957,11 @@
 </section>
 
 <!-- ─────────────────────────── UPSTREAM / ECOSYSTEM ─────────────────────────── -->
-<section class="section" id="upstream">
+<section class="section section--alt" id="upstream" aria-labelledby="upstream-title">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="section__kicker">03 — Upstream</p>
-      <h2 class="section__title">Plugged into the whole FreeBSD world</h2>
+      <p class="section__kicker">04 — Upstream</p>
+      <h2 class="section__title" id="upstream-title">Plugged into the whole FreeBSD world</h2>
       <p class="section__lede">
         None of this is a private fork that goes nowhere. Board support starts on a branch,
         hardens in a SoCBSD arena, goes through review, and ends up in the trees and wiki pages
@@ -487,11 +1050,11 @@
 </section>
 
 <!-- ─────────────────────────── RULES ─────────────────────────── -->
-<section class="section section--alt" id="rules">
+<section class="section" id="rules" aria-labelledby="rules-title">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="section__kicker">04 — How SoCBSD works</p>
-      <h2 class="section__title">Fast to merge, impossible to fake</h2>
+      <p class="section__kicker">05 — How SoCBSD works</p>
+      <h2 class="section__title" id="rules-title">Fast to merge, impossible to fake</h2>
       <p class="section__lede">
         Work happens in seasonal <em>games</em>: boards are the arenas, contributors are the players.
         The rules exist so that everything merged can survive the trip upstream.
@@ -533,13 +1096,118 @@
   </div>
 </section>
 
+<!-- ─────────────────────────── FAQ ─────────────────────────── -->
+<section class="section section--alt" id="faq" aria-labelledby="faq-title">
+  <div class="container">
+    <header class="section__head" data-reveal>
+      <p class="section__kicker">06 — FAQ</p>
+      <h2 class="section__title" id="faq-title">Questions people actually ask</h2>
+      <p class="section__lede">
+        The things that land in my inbox and in the FreeBSD forums, answered once, here.
+      </p>
+    </header>
+
+    <div class="faq">
+      <details class="faq__item" data-reveal>
+        <summary><h3>Does FreeBSD run on the Banana Pi BPI-R64?</h3></summary>
+        <div class="faq__a">
+          <p>
+            Not out of the box — there is no BPI-R64 image on the FreeBSD download page. Support for its
+            MediaTek MT7622 SoC is what the
+            <a href="https://github.com/Martinfx/freebsd-src/tree/max-support-mediatek-7622-bananapir64" target="_blank" rel="noopener">max-support-mediatek-7622-bananapir64</a>
+            branch adds: device tree, clocks, pinctrl and the drivers needed to reach a console.
+            Build that branch for <code>TARGET=arm64</code> and you get a bootable system on the board.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq__item" data-reveal>
+        <summary><h3>Which SoC boards are being brought up right now?</h3></summary>
+        <div class="faq__a">
+          <p>
+            Six: Banana Pi BPI-R64 (MediaTek MT7622, arm64), BPI-R2 Pro (Rockchip RK3568, arm64),
+            BPI-R2 (MediaTek MT7623, armv7), the MediaTek NIO12L reference platform, and the
+            Raspberry Pi 3 (BCM2837) and Raspberry Pi 5 (BCM2712) arenas in SoCBSD. Each one has its
+            own branch — see <a href="#boards">Boards on the bench</a>.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq__item" data-reveal>
+        <summary><h3>What is SoCBSD and how does it differ from FreeBSD?</h3></summary>
+        <div class="faq__a">
+          <p>
+            SoCBSD is a FreeBSD fork with exactly one job: SoC board bring-up. It is a playground,
+            not a distribution — no installer, no desktop, no divergent userland. Work lands there
+            first because merging is fast, then goes upstream into FreeBSD once it is stable.
+            Everything is written to be relicensable and upstream-ready from the first commit.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq__item" data-reveal>
+        <summary><h3>How do I build FreeBSD for an arm64 SoC board?</h3></summary>
+        <div class="faq__a">
+          <p>Clone the tree, check out the branch for your board, then cross-build world and kernel:</p>
+          <pre><code>git clone https://github.com/SoCBSD/socbsd-src.git
+cd socbsd-src
+git checkout arena/raspberry-pi-3
+make -j$(sysctl -n hw.ncpu) buildworld buildkernel \
+     TARGET=arm64 TARGET_ARCH=aarch64</code></pre>
+          <p>
+            Then write the result to an SD card, attach a serial console and capture the boot log —
+            that log is what a pull request needs.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq__item" data-reveal>
+        <summary><h3>Can I contribute support for a board I own?</h3></summary>
+        <div class="faq__a">
+          <p>
+            Yes — that is the whole point. Open an arena for your board or join an existing one. The
+            rules are short: you must physically own the hardware, you must verify what you claim
+            (untested code gets you banned), no GPL code may be copied in, and you commit under a real
+            name so the work can go upstream. See <a href="#rules">how SoCBSD works</a>.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq__item" data-reveal>
+        <summary><h3>Does any of this reach upstream FreeBSD?</h3></summary>
+        <div class="faq__a">
+          <p>
+            That is the destination, not a side effect. A change starts on a per-board branch, hardens
+            in a SoCBSD arena, goes through review on Phabricator and GitHub, and lands in
+            <code>freebsd-src</code> or the ports tree. Ports work goes the same route —
+            over 560 commits of new ports, build-failure fixes and cross-architecture cleanups.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq__item" data-reveal>
+        <summary><h3>Are you available for embedded or driver work?</h3></summary>
+        <div class="faq__a">
+          <p>
+            Yes — board bring-up, device drivers, device trees, ports maintenance and long-term
+            support contracts around FreeBSD on embedded hardware. Platforms I work on day to day are
+            MediaTek, Rockchip and Broadcom. Write to
+            <a href="mailto:freebsd@sysctl.cz">freebsd@sysctl.cz</a> or reach me on
+            <a href="https://github.com/Martinfx" target="_blank" rel="noopener">GitHub</a>.
+          </p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
 <!-- ─────────────────────────── COLLAB ─────────────────────────── -->
-<section class="section" id="collab">
+<section class="section" id="collab" aria-labelledby="collab-title">
   <div class="container">
     <div class="collab">
       <div class="collab__copy" data-reveal>
-        <p class="section__kicker">05 — Collaborate</p>
-        <h2 class="section__title">Got a board? Let's boot it.</h2>
+        <p class="section__kicker">07 — Collaborate</p>
+        <h2 class="section__title" id="collab-title">Got a board? Let's boot it.</h2>
         <p class="section__lede">
           I'm open to collaboration on driver work, board bring-up, ports maintenance and
           anything low-level around FreeBSD on embedded hardware. Contract work and
@@ -554,11 +1222,19 @@
         </ul>
 
         <div class="collab__cta">
-          <a class="btn btn--primary" href="https://github.com/SoCBSD/socbsd-src/issues" target="_blank" rel="noopener">
+          <a class="btn btn--primary" href="mailto:freebsd@sysctl.cz?subject=FreeBSD%20SoC%20work">
+            freebsd@sysctl.cz
+            <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.8" y="3.2" width="12.4" height="9.6" rx="1.6"/><path d="m2.4 4.4 5.6 4 5.6-4"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="https://github.com/SoCBSD/socbsd-src/issues" target="_blank" rel="noopener">
             Open an issue
             <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
           </a>
-          <a class="btn btn--ghost" href="https://github.com/Martinfx" target="_blank" rel="noopener">Reach me on GitHub</a>
+          <a class="btn btn--ghost" href="https://github.com/Martinfx" target="_blank" rel="me noopener">Reach me on GitHub</a>
+          <a class="btn btn--ghost" href="https://discord.gg/qHCeXUMVr" target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M13.5 3.2A12 12 0 0 0 10.6 2.3l-.2.4a11 11 0 0 0-4.8 0l-.2-.4A12 12 0 0 0 2.5 3.2C.6 6 .1 8.8.4 11.5a12 12 0 0 0 3.6 1.8l.7-1.2c-.4-.2-.8-.4-1.1-.6l.3-.2a8.6 8.6 0 0 0 7.4 0l.3.2-1.1.6.7 1.2a12 12 0 0 0 3.6-1.8c.3-3.1-.5-5.9-2.3-8.3ZM5.6 9.9c-.7 0-1.3-.6-1.3-1.4S4.9 7 5.6 7c.7 0 1.3.7 1.3 1.5S6.3 9.9 5.6 9.9Zm4.8 0c-.7 0-1.3-.6-1.3-1.4S9.7 7 10.4 7c.7 0 1.3.7 1.3 1.5s-.6 1.4-1.3 1.4Z"/></svg>
+            Discord
+          </a>
         </div>
       </div>
 
@@ -586,7 +1262,8 @@ git checkout -b arena/my-board gamemaster">
           <div><span class="k">Looking for</span><span class="v">driver &amp; bring-up work</span></div>
           <div><span class="k">Platforms</span><span class="v">MediaTek · Rockchip · Broadcom</span></div>
           <div><span class="k">Languages</span><span class="v">C · shell · make</span></div>
-          <div><span class="k">Where</span><span class="v">GitHub issues &amp; PRs</span></div>
+          <div><span class="k">Contact</span><span class="v"><a href="mailto:freebsd@sysctl.cz">freebsd@sysctl.cz</a></span></div>
+          <div><span class="k">Chat</span><span class="v"><a href="https://discord.gg/qHCeXUMVr" target="_blank" rel="noopener">Discord</a></span></div>
         </div>
       </aside>
     </div>
@@ -598,24 +1275,31 @@ git checkout -b arena/my-board gamemaster">
   <div class="container footer__inner">
     <div class="footer__brand">
       <span class="brand__text">sysctl</span>
-      <p>FreeBSD SoC bring-up, kernel patches and ports — by Martin Fx.</p>
+      <p>Martin Fx — systems &amp; embedded developer. FreeBSD SoC bring-up, kernel and driver patches, ports maintenance.</p>
     </div>
     <nav class="footer__links" aria-label="Footer">
       <div>
-        <h4>Projects</h4>
+        <h3>Projects</h3>
         <a href="https://github.com/SoCBSD" target="_blank" rel="noopener">SoCBSD</a>
         <a href="https://github.com/Martinfx/FreeBSD-Ports" target="_blank" rel="noopener">FreeBSD Ports</a>
         <a href="https://github.com/Martinfx/freebsd-src/branches/all" target="_blank" rel="noopener">Board branches</a>
       </div>
       <div>
-        <h4>Upstream</h4>
+        <h3>Contact</h3>
+        <a href="mailto:freebsd@sysctl.cz">freebsd@sysctl.cz</a>
+        <a href="https://github.com/Martinfx" target="_blank" rel="me noopener">github.com/Martinfx</a>
+        <a href="https://discord.gg/qHCeXUMVr" target="_blank" rel="noopener">Discord</a>
+      </div>
+      <div>
+        <h3>Upstream</h3>
         <a href="https://www.freebsd.org/" target="_blank" rel="noopener">FreeBSD Project</a>
         <a href="https://reviews.freebsd.org/" target="_blank" rel="noopener">Phabricator</a>
         <a href="https://wiki.freebsd.org/arm/Bananapi" target="_blank" rel="noopener">Wiki · arm/Bananapi</a>
       </div>
       <div>
-        <h4>Elsewhere</h4>
-        <a href="https://github.com/Martinfx" target="_blank" rel="noopener">GitHub profile</a>
+        <h3>Elsewhere</h3>
+        <a href="https://github.com/Martinfx" target="_blank" rel="me noopener">GitHub profile</a>
+        <a href="https://mastodon.bsd.cafe/@martin" target="_blank" rel="me noopener">Mastodon</a>
         <a href="https://www.freebsd.org/" target="_blank" rel="noopener">FreeBSD.org</a>
         <a href="https://github.com/SoCBSD/socbsd-src/issues" target="_blank" rel="noopener">Issues</a>
       </div>

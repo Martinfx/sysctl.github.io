@@ -1,0 +1,19 @@
+/* TEAM */
+  Developer: Martin Fx
+  Site: https://sysctl.cz/
+  GitHub: @Martinfx
+  Mastodon: @martin@mastodon.bsd.cafe
+  Email: freebsd@sysctl.cz
+  Discord: https://discord.gg/qHCeXUMVr
+  Location: Czechia
+
+/* WORK */
+  FreeBSD SoC board bring-up — MediaTek, Rockchip, Broadcom
+  Kernel and device driver patches
+  FreeBSD ports maintenance
+  SoCBSD — https://github.com/SoCBSD
+
+/* SITE */
+  Standards: HTML5, CSS3, ES5-compatible JavaScript
+  Components: none — no framework, no build step
+  Fonts: Inter, JetBrains Mono

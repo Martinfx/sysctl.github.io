@@ -1,0 +1,16 @@
+{
+  "name": "sysctl — FreeBSD SoC bring-up, kernel & ports",
+  "short_name": "sysctl",
+  "description": "FreeBSD SoC board bring-up, kernel and driver patches, and ports maintenance by Martin Fx.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#08090c",
+  "theme_color": "#08090c",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["developer", "productivity", "utilities"],
+  "icons": [
+    { "src": "/assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
