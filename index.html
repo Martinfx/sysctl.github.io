@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sysctl — FreeBSD SoC bring-up, kernel &amp; ports</title>
+<meta name="description" content="Martin Fx — low-level FreeBSD work: SoC board bring-up on Banana Pi R64, R2 Pro, R2 and Raspberry Pi, kernel and driver patches, and FreeBSD ports maintenance. Open, verified on real hardware, pushed upstream.">
+<meta name="author" content="Martin Fx">
+<meta name="theme-color" content="#08090c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://martinfx.github.io/sysctl.github.io/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="sysctl — FreeBSD SoC bring-up, kernel &amp; ports">
+<meta property="og:description" content="SoC board bring-up, kernel and driver work, and ports maintenance for FreeBSD. Verified on real hardware, pushed upstream.">
+<meta property="og:url" content="https://martinfx.github.io/sysctl.github.io/">
+<meta property="og:image" content="https://martinfx.github.io/sysctl.github.io/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="sysctl — FreeBSD SoC bring-up, kernel &amp; ports">
+<meta name="twitter:description" content="SoC board bring-up, kernel and driver work, and ports maintenance for FreeBSD.">
+<meta name="twitter:image" content="https://martinfx.github.io/sysctl.github.io/assets/img/og.png">
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+
+<script>
+  // Set theme before first paint to avoid a flash of the wrong colours.
+  try {
+    var t = localStorage.getItem('sysctl-theme');
+    if (!t) t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Martin Fx",
+  "url": "https://martinfx.github.io/sysctl.github.io/",
+  "sameAs": ["https://github.com/Martinfx", "https://github.com/SoCBSD"],
+  "jobTitle": "Systems & embedded developer",
+  "knowsAbout": ["FreeBSD", "Kernel development", "SoC bring-up", "ARM64", "Device drivers", "FreeBSD ports"]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="container nav__inner">
+    <a class="brand" href="#top" aria-label="sysctl — home">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="6.5" y="6.5" width="11" height="11" rx="2"/>
+          <path d="M9.5 3v3.5M14.5 3v3.5M9.5 17.5V21M14.5 17.5V21M3 9.5h3.5M3 14.5h3.5M17.5 9.5H21M17.5 14.5H21"/>
+        </svg>
+      </span>
+      <span class="brand__text">sysctl</span>
+      <span class="brand__caret" aria-hidden="true"></span>
+    </a>
+
+    <nav class="nav__links" id="nav-links" aria-label="Main">
+      <a href="#projects">Projects</a>
+      <a href="#boards">Boards</a>
+      <a href="#upstream">Upstream</a>
+      <a href="#rules">How it works</a>
+      <a href="#collab">Collaborate</a>
+    </nav>
+
+    <div class="nav__actions">
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch colour theme" title="Switch theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.2 8.2 0 1 0 10.2 10.2Z"/></svg>
+      </button>
+      <a class="btn btn--ghost nav__gh" href="https://github.com/Martinfx" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <button class="icon-btn nav__burger" id="nav-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+        <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<span id="top"></span>
+
+<!-- ─────────────────────────── HERO ─────────────────────────── -->
+<section class="hero">
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <p class="eyebrow" data-reveal>
+        <span class="dot" aria-hidden="true"></span>
+        Systems &amp; embedded · FreeBSD
+      </p>
+
+      <h1 class="hero__title" data-reveal>
+        Getting <span class="grad">FreeBSD</span> onto the boards it doesn't run on yet.
+      </h1>
+
+      <p class="hero__lede" data-reveal>
+        SoC bring-up, kernel and driver work, and ports maintenance — done in the open,
+        verified on hardware I actually own, and pushed upstream where it belongs.
+      </p>
+
+      <div class="hero__cta" data-reveal>
+        <a class="btn btn--primary" href="#projects">
+          Browse projects
+          <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a class="btn btn--ghost" href="https://github.com/Martinfx" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+          @Martinfx
+        </a>
+      </div>
+
+      <ul class="hero__chips" data-reveal>
+        <li>arm64 / armv7</li>
+        <li>MediaTek</li>
+        <li>Rockchip</li>
+        <li>Broadcom</li>
+        <li>device trees</li>
+        <li>ports</li>
+      </ul>
+    </div>
+
+    <div class="hero__term" data-reveal>
+      <div class="term" id="term">
+        <div class="term__bar">
+          <span class="term__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="term__title">console — bpi-r2pro</span>
+          <span class="term__badge">live</span>
+        </div>
+        <pre class="term__body" id="term-body" aria-label="Simulated FreeBSD boot log"></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────── STATS ─────────────────────────── -->
+<section class="stats" aria-label="At a glance">
+  <div class="container stats__grid">
+    <div class="stat" data-reveal>
+      <span class="stat__num">6</span>
+      <span class="stat__label">boards in bring-up</span>
+    </div>
+    <div class="stat" data-reveal>
+      <span class="stat__num">560+</span>
+      <span class="stat__label">ports commits</span>
+    </div>
+    <div class="stat" data-reveal>
+      <span class="stat__num">3</span>
+      <span class="stat__label">SoC vendors</span>
+    </div>
+    <div class="stat" data-reveal>
+      <span class="stat__num">2</span>
+      <span class="stat__label">upstream trees</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────── PROJECTS ─────────────────────────── -->
+<section class="section" id="projects">
+  <div class="container">
+    <header class="section__head" data-reveal>
+      <p class="section__kicker">01 — Projects</p>
+      <h2 class="section__title">What I build and maintain</h2>
+      <p class="section__lede">
+        Three tracks that feed each other: a fork where board support is grown,
+        the ports tree that makes the result usable, and the upstream trees where it lands.
+      </p>
+    </header>
+
+    <div class="cards">
+
+      <article class="card card--feature" data-repo="SoCBSD/socbsd-src" data-reveal>
+        <div class="card__top">
+          <span class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><rect x="9" y="9" width="6" height="6" rx="1.2"/><path d="M9 1.8v2.2M15 1.8v2.2M9 20v2.2M15 20v2.2M1.8 9H4M1.8 15H4M20 9h2.2M20 15h2.2"/></svg>
+          </span>
+          <span class="tag tag--accent">flagship</span>
+        </div>
+        <h3 class="card__title">SoCBSD</h3>
+        <p class="card__desc">
+          A FreeBSD fork dedicated to SoC board bring-up — <em>a playground, not a distro.</em>
+          Hundreds of boards run Linux; a handful run FreeBSD. SoCBSD is where that gap gets
+          closed: bring a board up, stabilise it, then take the work upstream.
+        </p>
+        <ul class="card__meta">
+          <li><span class="k">org</span><span class="v">SoCBSD</span></li>
+          <li><span class="k">tree</span><span class="v">socbsd-src</span></li>
+          <li><span class="k">base</span><span class="v">freebsd/freebsd-src</span></li>
+        </ul>
+        <div class="card__tags">
+          <span class="tag">kernel</span><span class="tag">arm64</span><span class="tag">bring-up</span>
+        </div>
+        <div class="card__foot">
+          <span class="card__stats" data-gh-stats aria-live="polite"></span>
+          <div class="card__links">
+            <a class="lnk" href="https://github.com/SoCBSD" target="_blank" rel="noopener">Organisation</a>
+            <a class="lnk lnk--go" href="https://github.com/SoCBSD/socbsd-src/tree/gamemaster" target="_blank" rel="noopener">
+              Source
+              <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 10.5 10.5 5.5M6.5 5.5h4v4"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-repo="Martinfx/FreeBSD-Ports" data-reveal>
+        <div class="card__top">
+          <span class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7.1 8.7 5 8.7-5M12 22.1V12"/></svg>
+          </span>
+        </div>
+        <h3 class="card__title">FreeBSD Ports</h3>
+        <p class="card__desc">
+          New ports, build-failure fixes, dependency bumps and cross-architecture cleanups
+          for the FreeBSD ports tree — from dev tooling to multimedia and system utilities.
+        </p>
+        <ul class="card__meta">
+          <li><span class="k">repo</span><span class="v">Martinfx/FreeBSD-Ports</span></li>
+          <li><span class="k">scope</span><span class="v">new ports · fixes · upstreaming</span></li>
+        </ul>
+        <div class="card__tags">
+          <span class="tag">ports</span><span class="tag">packaging</span><span class="tag">makefiles</span>
+        </div>
+        <div class="card__foot">
+          <span class="card__stats" data-gh-stats aria-live="polite"></span>
+          <div class="card__links">
+            <a class="lnk lnk--go" href="https://github.com/Martinfx/FreeBSD-Ports" target="_blank" rel="noopener">
+              Repository
+              <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 10.5 10.5 5.5M6.5 5.5h4v4"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-repo="Martinfx/freebsd-src" data-reveal>
+        <div class="card__top">
+          <span class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><circle cx="18" cy="12" r="2.6"/><path d="M6 8.6v6.8M8.6 6h4.9a2 2 0 0 1 2 2v1.6M8.6 18h4.9a2 2 0 0 0 2-2v-1.6"/></svg>
+          </span>
+        </div>
+        <h3 class="card__title">freebsd-src patches</h3>
+        <p class="card__desc">
+          My working tree against FreeBSD <code>main</code>: per-board support branches for
+          MediaTek and Rockchip platforms, plus standalone fixes such as the Bluetooth stack patch.
+          Each branch is a self-contained bring-up you can build and boot.
+        </p>
+        <ul class="card__meta">
+          <li><span class="k">repo</span><span class="v">Martinfx/freebsd-src</span></li>
+          <li><span class="k">branches</span><span class="v">max-support-*</span></li>
+        </ul>
+        <div class="card__tags">
+          <span class="tag">drivers</span><span class="tag">dts</span><span class="tag">upstream</span>
+        </div>
+        <div class="card__foot">
+          <span class="card__stats" data-gh-stats aria-live="polite"></span>
+          <div class="card__links">
+            <a class="lnk lnk--go" href="https://github.com/Martinfx/freebsd-src/branches/all" target="_blank" rel="noopener">
+              All branches
+              <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 10.5 10.5 5.5M6.5 5.5h4v4"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────── BOARDS ─────────────────────────── -->
+<section class="section section--alt" id="boards">
+  <div class="container">
+    <header class="section__head" data-reveal>
+      <p class="section__kicker">02 — Hardware</p>
+      <h2 class="section__title">Boards on the bench</h2>
+      <p class="section__lede">
+        Every board here is one I own and boot myself. Each card points straight at the branch
+        carrying its support — no vapourware, no untested claims.
+      </p>
+    </header>
+
+    <div class="filters" role="group" aria-label="Filter boards" data-reveal>
+      <button class="chip is-active" type="button" data-filter="all">All</button>
+      <button class="chip" type="button" data-filter="mediatek">MediaTek</button>
+      <button class="chip" type="button" data-filter="rockchip">Rockchip</button>
+      <button class="chip" type="button" data-filter="broadcom">Broadcom</button>
+      <button class="chip" type="button" data-filter="arena">SoCBSD arenas</button>
+    </div>
+
+    <div class="boards" id="boards-grid">
+
+      <a class="board" data-vendor="mediatek" data-branch="Martinfx/freebsd-src:max-support-mediatek-7622-bananapir64"
+         href="https://github.com/Martinfx/freebsd-src/tree/max-support-mediatek-7622-bananapir64" target="_blank" rel="noopener" data-reveal>
+        <div class="board__head">
+          <h3 class="board__name">Banana Pi BPI-R64</h3>
+          <span class="status status--work">bring-up</span>
+        </div>
+        <p class="board__soc">MediaTek MT7622 · arm64</p>
+        <p class="board__desc">Router-class board: dual Cortex-A53, built-in switch and Wi-Fi silicon.</p>
+        <div class="board__foot">
+          <code class="board__branch">max-support-mediatek-7622-bananapir64</code>
+          <span class="board__when" data-branch-when></span>
+        </div>
+      </a>
+
+      <a class="board" data-vendor="rockchip arena" data-branch="Martinfx/freebsd-src:max-support-bananapi-r2-pro"
+         href="https://github.com/Martinfx/freebsd-src/tree/max-support-bananapi-r2-pro" target="_blank" rel="noopener" data-reveal>
+        <div class="board__head">
+          <h3 class="board__name">Banana Pi BPI-R2 Pro</h3>
+          <span class="status status--work">bring-up</span>
+        </div>
+        <p class="board__soc">Rockchip RK3568 · arm64</p>
+        <p class="board__desc">Quad Cortex-A55 router board. Also an open arena in SoCBSD.</p>
+        <div class="board__foot">
+          <code class="board__branch">max-support-bananapi-r2-pro</code>
+          <span class="board__when" data-branch-when></span>
+        </div>
+      </a>
+
+      <a class="board" data-vendor="mediatek" data-branch="Martinfx/freebsd-src:max-support-bananapi-bpi-r2-7623"
+         href="https://github.com/Martinfx/freebsd-src/tree/max-support-bananapi-bpi-r2-7623" target="_blank" rel="noopener" data-reveal>
+        <div class="board__head">
+          <h3 class="board__name">Banana Pi BPI-R2</h3>
+          <span class="status status--work">bring-up</span>
+        </div>
+        <p class="board__soc">MediaTek MT7623 · armv7</p>
+        <p class="board__desc">The 32-bit original of the R-series — the awkward one, and the interesting one.</p>
+        <div class="board__foot">
+          <code class="board__branch">max-support-bananapi-bpi-r2-7623</code>
+          <span class="board__when" data-branch-when></span>
+        </div>
+      </a>
+
+      <a class="board" data-vendor="mediatek" data-branch="Martinfx/freebsd-src:max-support-mediatek-nio12l"
+         href="https://github.com/Martinfx/freebsd-src/tree/max-support-mediatek-nio12l" target="_blank" rel="noopener" data-reveal>
+        <div class="board__head">
+          <h3 class="board__name">MediaTek NIO12L</h3>
+          <span class="status status--work">bring-up</span>
+        </div>
+        <p class="board__soc">MediaTek reference platform</p>
+        <p class="board__desc">Vendor reference hardware — the cleanest place to get a new MediaTek SoC talking.</p>
+        <div class="board__foot">
+          <code class="board__branch">max-support-mediatek-nio12l</code>
+          <span class="board__when" data-branch-when></span>
+        </div>
+      </a>
+
+      <a class="board" data-vendor="broadcom arena" data-branch="SoCBSD/socbsd-src:arena/raspberry-pi-3"
+         href="https://github.com/SoCBSD/socbsd-src/tree/arena/raspberry-pi-3" target="_blank" rel="noopener" data-reveal>
+        <div class="board__head">
+          <h3 class="board__name">Raspberry Pi 3</h3>
+          <span class="status status--arena">arena open</span>
+        </div>
+        <p class="board__soc">Broadcom BCM2837 · arm64</p>
+        <p class="board__desc">A SoCBSD arena — open for contributors who have the board in hand.</p>
+        <div class="board__foot">
+          <code class="board__branch">arena/raspberry-pi-3</code>
+          <span class="board__when" data-branch-when></span>
+        </div>
+      </a>
+
+      <a class="board" data-vendor="broadcom arena" data-branch="SoCBSD/socbsd-src:arena/raspberry-pi-5"
+         href="https://github.com/SoCBSD/socbsd-src/tree/arena/raspberry-pi-5" target="_blank" rel="noopener" data-reveal>
+        <div class="board__head">
+          <h3 class="board__name">Raspberry Pi 5</h3>
+          <span class="status status--arena">arena open</span>
+        </div>
+        <p class="board__soc">Broadcom BCM2712 · arm64</p>
+        <p class="board__desc">A SoCBSD arena — newest Pi silicon, plenty still unmapped.</p>
+        <div class="board__foot">
+          <code class="board__branch">arena/raspberry-pi-5</code>
+          <span class="board__when" data-branch-when></span>
+        </div>
+      </a>
+
+    </div>
+
+    <p class="boards__note" data-reveal>
+      Missing a board? <a href="#collab">Open an arena</a> — that's exactly what SoCBSD is for.
+    </p>
+  </div>
+</section>
+
+<!-- ─────────────────────────── UPSTREAM / ECOSYSTEM ─────────────────────────── -->
+<section class="section" id="upstream">
+  <div class="container">
+    <header class="section__head" data-reveal>
+      <p class="section__kicker">03 — Upstream</p>
+      <h2 class="section__title">Plugged into the whole FreeBSD world</h2>
+      <p class="section__lede">
+        None of this is a private fork that goes nowhere. Board support starts on a branch,
+        hardens in a SoCBSD arena, goes through review, and ends up in the trees and wiki pages
+        the rest of the project actually uses.
+      </p>
+    </header>
+
+    <ol class="flow" data-reveal>
+      <li class="flow__step">
+        <span class="flow__n">01</span>
+        <h3>Branch</h3>
+        <p>A per-board branch in <code>Martinfx/freebsd-src</code>, built and booted on real hardware.</p>
+      </li>
+      <li class="flow__step">
+        <span class="flow__n">02</span>
+        <h3>Arena</h3>
+        <p>Promoted into a SoCBSD arena so other owners of the same board can pile on.</p>
+      </li>
+      <li class="flow__step">
+        <span class="flow__n">03</span>
+        <h3>Review</h3>
+        <p>Bots plus humans on Phabricator and GitHub — clean provenance, real names, boot logs.</p>
+      </li>
+      <li class="flow__step flow__step--end">
+        <span class="flow__n">04</span>
+        <h3>Upstream</h3>
+        <p>Lands in <code>freebsd-src</code> / the ports tree, and the wiki board page gets updated.</p>
+      </li>
+    </ol>
+
+    <h3 class="eco__heading" data-reveal>Where I work with the project</h3>
+
+    <div class="eco" data-reveal>
+      <a class="eco__tile" href="https://www.freebsd.org/" target="_blank" rel="noopener">
+        <span class="eco__name">The FreeBSD Project</span>
+        <span class="eco__host">freebsd.org</span>
+        <span class="eco__desc">The upstream everything is aimed at.</span>
+      </a>
+      <a class="eco__tile" href="https://github.com/freebsd/freebsd-src" target="_blank" rel="noopener">
+        <span class="eco__name">freebsd-src</span>
+        <span class="eco__host">github.com/freebsd</span>
+        <span class="eco__desc">Kernel and userland tree my branches track.</span>
+      </a>
+      <a class="eco__tile" href="https://cgit.freebsd.org/ports/" target="_blank" rel="noopener">
+        <span class="eco__name">Ports tree</span>
+        <span class="eco__host">cgit.freebsd.org/ports</span>
+        <span class="eco__desc">Where port additions and build fixes land.</span>
+      </a>
+      <a class="eco__tile" href="https://reviews.freebsd.org/" target="_blank" rel="noopener">
+        <span class="eco__name">Phabricator</span>
+        <span class="eco__host">reviews.freebsd.org</span>
+        <span class="eco__desc">Patch review before anything is committed.</span>
+      </a>
+      <a class="eco__tile" href="https://bugs.freebsd.org/bugzilla/" target="_blank" rel="noopener">
+        <span class="eco__name">Bugzilla</span>
+        <span class="eco__host">bugs.freebsd.org</span>
+        <span class="eco__desc">Problem reports, build failures, board bugs.</span>
+      </a>
+      <a class="eco__tile eco__tile--hi" href="https://wiki.freebsd.org/arm/Bananapi" target="_blank" rel="noopener">
+        <span class="eco__name">Wiki · arm/Bananapi</span>
+        <span class="eco__host">wiki.freebsd.org</span>
+        <span class="eco__desc">The board status page for the R-series work.</span>
+      </a>
+      <a class="eco__tile" href="https://lists.freebsd.org/subscription/freebsd-arm" target="_blank" rel="noopener">
+        <span class="eco__name">freebsd-arm@</span>
+        <span class="eco__host">lists.freebsd.org</span>
+        <span class="eco__desc">Where arm bring-up gets discussed in the open.</span>
+      </a>
+      <a class="eco__tile" href="https://freebsdfoundation.org/" target="_blank" rel="noopener">
+        <span class="eco__name">FreeBSD Foundation</span>
+        <span class="eco__host">freebsdfoundation.org</span>
+        <span class="eco__desc">Backing the project and its embedded push.</span>
+      </a>
+      <a class="eco__tile" href="https://forums.freebsd.org/" target="_blank" rel="noopener">
+        <span class="eco__name">FreeBSD Forums</span>
+        <span class="eco__host">forums.freebsd.org</span>
+        <span class="eco__desc">Users hitting the same hardware questions.</span>
+      </a>
+      <a class="eco__tile" href="https://bsd-cz.org/" target="_blank" rel="noopener">
+        <span class="eco__name">BSD-CZ</span>
+        <span class="eco__host">bsd-cz.org</span>
+        <span class="eco__desc">The Czech BSD community I come from.</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────── RULES ─────────────────────────── -->
+<section class="section section--alt" id="rules">
+  <div class="container">
+    <header class="section__head" data-reveal>
+      <p class="section__kicker">04 — How SoCBSD works</p>
+      <h2 class="section__title">Fast to merge, impossible to fake</h2>
+      <p class="section__lede">
+        Work happens in seasonal <em>games</em>: boards are the arenas, contributors are the players.
+        The rules exist so that everything merged can survive the trip upstream.
+      </p>
+    </header>
+
+    <ol class="rules">
+      <li class="rule" data-reveal>
+        <span class="rule__n">01</span>
+        <h3>Bring-up only</h3>
+        <p>Scope is SoC board support. Not a distro, not a desktop, not a rewrite of FreeBSD.</p>
+      </li>
+      <li class="rule" data-reveal>
+        <span class="rule__n">02</span>
+        <h3>Own the hardware</h3>
+        <p>You must physically have the device. Support is written against boards, not datasheets.</p>
+      </li>
+      <li class="rule" data-reveal>
+        <span class="rule__n">03</span>
+        <h3>Verify, then claim</h3>
+        <p>Untested code gets you banned. A boot log is worth more than a paragraph of intent.</p>
+      </li>
+      <li class="rule" data-reveal>
+        <span class="rule__n">04</span>
+        <h3>Clean provenance</h3>
+        <p>No copying GPL code. Everything must be relicensable and safe to send upstream.</p>
+      </li>
+      <li class="rule" data-reveal>
+        <span class="rule__n">05</span>
+        <h3>Real names</h3>
+        <p>Upstream FreeBSD wants attributable authorship, so the fork asks for it from day one.</p>
+      </li>
+      <li class="rule" data-reveal>
+        <span class="rule__n">06</span>
+        <h3>Review is expected</h3>
+        <p>Automated and AI-assisted review runs on every change, then a human signs it off.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ─────────────────────────── COLLAB ─────────────────────────── -->
+<section class="section" id="collab">
+  <div class="container">
+    <div class="collab">
+      <div class="collab__copy" data-reveal>
+        <p class="section__kicker">05 — Collaborate</p>
+        <h2 class="section__title">Got a board? Let's boot it.</h2>
+        <p class="section__lede">
+          I'm open to collaboration on driver work, board bring-up, ports maintenance and
+          anything low-level around FreeBSD on embedded hardware. Contract work and
+          long-term maintenance included.
+        </p>
+
+        <ul class="collab__steps">
+          <li><span class="collab__i">1</span><div><strong>Pick an arena</strong><p>Take an open board, or propose a new one you own.</p></div></li>
+          <li><span class="collab__i">2</span><div><strong>Build and boot it</strong><p>Clone the tree, cut a branch, get to a console.</p></div></li>
+          <li><span class="collab__i">3</span><div><strong>Send the PR</strong><p>Boot log attached. Review is fast; merges are faster.</p></div></li>
+          <li><span class="collab__i">4</span><div><strong>Upstream it</strong><p>Once it's stable, it goes where everyone benefits.</p></div></li>
+        </ul>
+
+        <div class="collab__cta">
+          <a class="btn btn--primary" href="https://github.com/SoCBSD/socbsd-src/issues" target="_blank" rel="noopener">
+            Open an issue
+            <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="https://github.com/Martinfx" target="_blank" rel="noopener">Reach me on GitHub</a>
+        </div>
+      </div>
+
+      <aside class="collab__box" data-reveal>
+        <div class="term term--sm">
+          <div class="term__bar">
+            <span class="term__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="term__title">get started</span>
+            <button class="term__copy" type="button" id="copy-btn" data-copy="git clone https://github.com/SoCBSD/socbsd-src.git
+cd socbsd-src
+git checkout -b arena/my-board gamemaster">
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.6"/><path d="M10.5 5.5v-2a1.5 1.5 0 0 0-1.5-1.5H3.5A1.5 1.5 0 0 0 2 3.5v5.5a1.5 1.5 0 0 0 1.5 1.5h2"/></svg>
+              <span id="copy-label">Copy</span>
+            </button>
+          </div>
+<pre class="term__body term__body--static"><code><span class="c-dim">$</span> git clone https://github.com/SoCBSD/socbsd-src.git
+<span class="c-dim">$</span> cd socbsd-src
+<span class="c-dim">$</span> git checkout -b <span class="c-acc">arena/my-board</span> gamemaster
+<span class="c-dim">$</span> make -j$(sysctl -n hw.ncpu) buildworld buildkernel \
+      TARGET=arm64 TARGET_ARCH=aarch64
+<span class="c-ok">→</span> boot it, capture the log, open a PR</code></pre>
+        </div>
+
+        <div class="collab__facts">
+          <div><span class="k">Looking for</span><span class="v">driver &amp; bring-up work</span></div>
+          <div><span class="k">Platforms</span><span class="v">MediaTek · Rockchip · Broadcom</span></div>
+          <div><span class="k">Languages</span><span class="v">C · shell · make</span></div>
+          <div><span class="k">Where</span><span class="v">GitHub issues &amp; PRs</span></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <span class="brand__text">sysctl</span>
+      <p>FreeBSD SoC bring-up, kernel patches and ports — by Martin Fx.</p>
+    </div>
+    <nav class="footer__links" aria-label="Footer">
+      <div>
+        <h4>Projects</h4>
+        <a href="https://github.com/SoCBSD" target="_blank" rel="noopener">SoCBSD</a>
+        <a href="https://github.com/Martinfx/FreeBSD-Ports" target="_blank" rel="noopener">FreeBSD Ports</a>
+        <a href="https://github.com/Martinfx/freebsd-src/branches/all" target="_blank" rel="noopener">Board branches</a>
+      </div>
+      <div>
+        <h4>Upstream</h4>
+        <a href="https://www.freebsd.org/" target="_blank" rel="noopener">FreeBSD Project</a>
+        <a href="https://reviews.freebsd.org/" target="_blank" rel="noopener">Phabricator</a>
+        <a href="https://wiki.freebsd.org/arm/Bananapi" target="_blank" rel="noopener">Wiki · arm/Bananapi</a>
+      </div>
+      <div>
+        <h4>Elsewhere</h4>
+        <a href="https://github.com/Martinfx" target="_blank" rel="noopener">GitHub profile</a>
+        <a href="https://www.freebsd.org/" target="_blank" rel="noopener">FreeBSD.org</a>
+        <a href="https://github.com/SoCBSD/socbsd-src/issues" target="_blank" rel="noopener">Issues</a>
+      </div>
+    </nav>
+  </div>
+  <div class="container footer__bar">
+    <p>© <span id="year">2026</span> Martin Fx · Built for the boards nobody ported yet.</p>
+    <a class="footer__top" href="#top">Back to top ↑</a>
+  </div>
+</footer>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
