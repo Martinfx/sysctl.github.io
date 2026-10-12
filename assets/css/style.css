@@ -242,6 +242,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   transition: color .18s ease, border-color .18s ease, transform .18s ease;
 }
 .icon-btn:hover { color: var(--text); border-color: var(--border-strong); transform: translateY(-1px); }
+.icon-btn--accent { color: var(--accent); border-color: var(--accent-line); }
+.icon-btn--accent:hover { color: var(--accent); background: var(--accent-soft); }
 
 .icon-sun  { display: none; }
 :root[data-theme="light"] .icon-sun  { display: block; }
