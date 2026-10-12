@@ -733,6 +733,44 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .boards__note a { color: var(--accent); font-weight: 600; border-bottom: 1px solid var(--accent-line); }
 
+.download {
+  margin-top: 22px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--r-lg);
+  background: linear-gradient(135deg, var(--accent-soft), transparent 70%), var(--bg);
+}
+.download__text { min-width: 0; }
+.download__kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.download__title { font-size: 1.15rem; letter-spacing: -.02em; margin-bottom: 8px; }
+.download__desc { font-size: 14px; color: var(--text-dim); max-width: 62ch; }
+.download__cmd {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  overflow-x: auto;
+}
+.download__actions { flex: none; display: flex; flex-wrap: wrap; gap: 10px; }
+@media (max-width: 760px) {
+  .download { flex-direction: column; align-items: stretch; padding: 20px; }
+}
+
 /* ---------- 13. Rules ---------- */
 .rules {
   display: grid;

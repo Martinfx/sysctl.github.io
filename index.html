@@ -459,7 +459,7 @@
           "name": "Does FreeBSD run on the Banana Pi BPI-R64?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Not out of the box - there is no BPI-R64 image on the FreeBSD download page. Support for its MediaTek MT7622 SoC is what the max-support-mediatek-7622-bananapir64 branch adds: device tree, clocks, pinctrl and the drivers needed to reach a console. Build that branch for TARGET=arm64 and you get a bootable system on the board."
+            "text": "Not out of the box - there is no BPI-R64 image on the FreeBSD download page. Support for its MediaTek MT7622 SoC is what the max-support-mediatek-7622-bananapir64 branch adds: device tree, clocks, pinctrl and the drivers needed to reach a console. Build that branch for TARGET=arm64 and you get a bootable system on the board. Or skip the build: a prebuilt SD card image, boot firmware included, is published with every build."
           }
         },
         {
@@ -914,6 +914,27 @@
 
     </div>
 
+    <div class="download" id="download-bpi-r64" data-reveal>
+      <div class="download__text">
+        <p class="download__kicker">Prebuilt image</p>
+        <h3 class="download__title">FreeBSD for the Banana Pi BPI-R64</h3>
+        <p class="download__desc">
+          A ready-to-flash SD card image (arm64, <code>MEDIATEK</code> kernel) with the boot
+          firmware — ATF and U-Boot — already on it. Built automatically from source on every
+          push; the link always serves the newest build.
+        </p>
+        <pre class="download__cmd"><code>xz -dc bpi-r64-freebsd-MEDIATEK.img.xz | sudo dd of=/dev/sdX bs=1M conv=fsync</code></pre>
+      </div>
+      <div class="download__actions">
+        <a class="btn btn--primary" href="https://github.com/BSD-CZ/freebsd-src/releases/latest/download/bpi-r64-freebsd-MEDIATEK.img.xz">
+          <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v9M4 7l4 4 4-4M3 14h10"/></svg>
+          Download .img.xz
+        </a>
+        <a class="btn btn--ghost" href="https://github.com/BSD-CZ/freebsd-src/releases/latest/download/SHA256">SHA256</a>
+        <a class="btn btn--ghost" href="https://github.com/BSD-CZ/freebsd-src/releases" target="_blank" rel="noopener">All builds</a>
+      </div>
+    </div>
+
     <p class="boards__note" data-reveal>
       Missing a board? <a href="#collab">Open an arena</a> — that's exactly what SoCBSD is for.
     </p>
@@ -1081,6 +1102,8 @@
             <a href="https://github.com/Martinfx/freebsd-src/tree/max-support-mediatek-7622-bananapir64" target="_blank" rel="noopener">max-support-mediatek-7622-bananapir64</a>
             branch adds: device tree, clocks, pinctrl and the drivers needed to reach a console.
             Build that branch for <code>TARGET=arm64</code> and you get a bootable system on the board.
+            Or skip the build: a <a href="#download-bpi-r64">prebuilt SD card image</a>, boot firmware
+            included, is published with every build.
           </p>
         </div>
       </details>
